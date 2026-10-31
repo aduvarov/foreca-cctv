@@ -26,6 +26,8 @@ export interface Renderer {
   renderEmptyFrame(message?: string): Canvas;
   /** RGBA-пиксели кадра: то, что уходит в FFmpeg. */
   pixels(chart: WeekChart): Uint8Array;
+  /** RGBA-пиксели кадра «нет данных». */
+  emptyPixels(message?: string): Uint8Array;
 }
 
 const EMPTY_MESSAGE = 'Нет данных о погоде';
@@ -46,17 +48,22 @@ export async function createRenderer(options: RendererOptions = {}): Promise<Ren
     return canvas;
   };
 
+  const renderEmptyFrame = (message: string = EMPTY_MESSAGE): Canvas => {
+    drawEmptyFrame(ctx, activeTheme, logo, message);
+    return canvas;
+  };
+
   return {
     width: activeTheme.width,
     height: activeTheme.height,
     renderFrame,
-    renderEmptyFrame(message = EMPTY_MESSAGE) {
-      drawEmptyFrame(ctx, activeTheme, logo, message);
-      return canvas;
-    },
+    renderEmptyFrame,
     pixels(chart) {
       renderFrame(chart);
       return toRgba(canvas);
+    },
+    emptyPixels(message) {
+      return toRgba(renderEmptyFrame(message));
     },
   };
 }

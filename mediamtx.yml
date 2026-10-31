@@ -1,0 +1,43 @@
+# Конфигурация MediaMTX для foreca-cctv.
+#
+# Задача: регистратор должен получать поток всегда, даже когда сервис
+# перезапускается или упал. Это делает alwaysAvailable + offline-заглушка.
+#
+# Две ссылки на один поток:
+#   rtsp://host:8554/weather      — путь публикации
+#   rtsp://host:8554/weather_sub  — редирект на основной путь
+#
+# Редирект выбран вместо второй публикации: одно кодирование, один процесс
+# FFmpeg, одна точка отказа. Проверено, что при отсутствии публикации обе
+# ссылки отдают заглушку.
+
+logLevel: info
+
+# Только TCP: UDP через NAT и Wi-Fi рвётся, а регистраторы обычно умеют TCP.
+rtsp: yes
+rtspTransports: [tcp]
+rtspAddress: :8554
+
+# Остальные протоколы сервису не нужны.
+rtmp: no
+hls: no
+webrtc: no
+srt: no
+
+# Аутентификация читателей пока не требуется (осознанное решение владельца).
+authMethod: internal
+
+paths:
+  weather:
+    # Заглушка вместо 404: регистратор видит канал всегда.
+    alwaysAvailable: yes
+    alwaysAvailableFile: ./assets/offline/no-data.mp4
+    # Заглушка не должна попадать в архив как содержимое канала.
+    alwaysAvailableRecorded: no
+    # Без аутентификации: поток смотрит только NVR в локальной сети.
+    # При необходимости включите readUser/readPass.
+    source: publisher
+
+  weather_sub:
+    source: redirect
+    sourceRedirect: rtsp://127.0.0.1:8554/weather

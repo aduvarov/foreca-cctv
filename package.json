@@ -18,7 +18,9 @@
     "openapi:normalize": "tsx scripts/normalize-openapi.ts",
     "openapi:generate": "openapi-ts",
     "codegen": "npm run openapi:normalize && npm run openapi:generate",
-    "codegen:check": "npm run codegen && git diff --exit-code -- src/generated build/foreca.normalized.json"
+    "codegen:check": "npm run codegen && git diff --exit-code -- src/generated build/foreca.normalized.json",
+    "start": "tsx src/index.ts",
+    "start:build": "node dist/index.js"
   },
   "dependencies": {
     "@napi-rs/canvas": "0.1.88",
