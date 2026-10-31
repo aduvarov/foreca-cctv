@@ -108,6 +108,21 @@ describe('ForecaClient: запросы', () => {
     expect(decodeURIComponent(url.pathname)).toBe('/api/v1/location/search/Караганда');
   });
 
+  it('убирает повторяющиеся результаты поиска', async () => {
+    // Реальный случай: Foreca вернула две записи одной Караганды
+    // с одинаковыми id и координатами.
+    const duplicate = {
+      locations: [locationSearchResponse['locations'], locationSearchResponse['locations']].flat(),
+    };
+    const http = recordingHttp(jsonResponse(duplicate));
+    const client = new ForecaClient({ token: TOKEN, http });
+
+    const found = await client.searchLocations('Караганда');
+
+    expect(found).toHaveLength(2);
+    expect(new Set(found.map((item) => item.id)).size).toBe(2);
+  });
+
   it('возвращает пустой список, если поиск ничего не нашёл', async () => {
     const http = recordingHttp(jsonResponse({ locations: [] }));
     const client = new ForecaClient({ token: TOKEN, http });

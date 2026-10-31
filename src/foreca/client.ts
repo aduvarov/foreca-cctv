@@ -137,7 +137,11 @@ export class ForecaClient {
       zGetApiV1LocationSearchQueryResponse,
       options.signal,
     );
-    return (body.locations ?? []).map(toLocationInfo).filter((item) => item.id !== undefined);
+    // Foreca иногда возвращает несколько записей с одинаковыми идентификатором
+    // и координатами: выбирать между ними нечего, поэтому дубли убираем.
+    return dedupeLocations(
+      (body.locations ?? []).map(toLocationInfo).filter((item) => item.id !== undefined),
+    );
   }
 
   async #getJson<T>(path: string, schema: ZodType<T>, signal: AbortSignal | undefined): Promise<T> {
@@ -228,6 +232,29 @@ export interface ForecastStep {
   readonly windDir: number | undefined;
   readonly windSpeed: number | undefined;
   readonly cloudiness: number | undefined;
+}
+
+/**
+ * Убирает повторы в результатах поиска.
+ *
+ * Ключ — идентификатор, а при его отсутствии комбинация имени и координат:
+ * у одинаковых записей различаться могут только служебные поля.
+ */
+export function dedupeLocations(locations: readonly LocationInfo[]): LocationInfo[] {
+  const seen = new Set<string>();
+  const result: LocationInfo[] = [];
+
+  for (const location of locations) {
+    const key =
+      location.id === undefined
+        ? `${location.name}|${String(location.lon)}|${String(location.lat)}`
+        : String(location.id);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    result.push(location);
+  }
+
+  return result;
 }
 
 /**

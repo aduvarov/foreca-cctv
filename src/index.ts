@@ -23,6 +23,9 @@ export interface CliDependencies {
   readonly stderr: NodeJS.WritableStream;
   readonly interactive: boolean;
   readonly runService: (config: ServiceConfig, configPath: string) => Promise<void>;
+  /** Мастер настройки: подменяется в тестах, чтобы не читать реальный stdin. */
+  readonly runWizardImpl?: typeof runWizard;
+  readonly bootstrapConfigImpl?: typeof bootstrapConfig;
 }
 
 /** Возвращает код выхода: 0 — успех, 1 — ошибка конфигурации. */
@@ -65,9 +68,10 @@ export async function main(deps: CliDependencies): Promise<number> {
 
     case 'wizard': {
       const io = createStreamIo(process.stdin, deps.stdout);
+      const wizard = deps.runWizardImpl ?? runWizard;
       let result;
       try {
-        result = await runWizard({
+        result = await wizard({
           io,
           createClient: (token) => new ForecaClient({ token }),
           ...(loaded.kind === 'loaded' ? { previousLocation: loaded.config.location } : {}),
@@ -91,6 +95,10 @@ export async function main(deps: CliDependencies): Promise<number> {
 
       const saved = await saveConfig(options.configPath, result.config);
       deps.stdout.write(`Конфигурация сохранена: ${saved}\n`);
+      // Первый запуск не должен заканчиваться сохранением файла: пользователь
+      // ждёт вещания, а не инструкции запустить сервис ещё раз.
+      deps.stdout.write('Запускаю сервис…\n');
+      await deps.runService(result.config, saved);
       return 0;
     }
 
@@ -100,7 +108,8 @@ export async function main(deps: CliDependencies): Promise<number> {
         return 1;
       }
 
-      const result = await bootstrapConfig({
+      const bootstrap = deps.bootstrapConfigImpl ?? bootstrapConfig;
+      const result = await bootstrap({
         createClient: (token) => new ForecaClient({ token }),
         token: options.token,
         locationQuery: options.location,
@@ -113,6 +122,10 @@ export async function main(deps: CliDependencies): Promise<number> {
 
       const saved = await saveConfig(options.configPath, result.config);
       deps.stdout.write(`Конфигурация создана: ${saved}\n`);
+      // В неинтерактивном режиме после создания конфигурации сразу вещаем:
+      // контейнер не должен завершаться сразу после записи файла.
+      deps.stdout.write('Запускаю сервис…\n');
+      await deps.runService(result.config, saved);
       return 0;
     }
 
