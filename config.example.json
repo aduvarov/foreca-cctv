@@ -1,0 +1,25 @@
+{
+  "forecaToken": "ВСТАВЬТЕ_ТОКЕН_FORECA",
+  "location": {
+    "name": "Караганда",
+    "lat": 49.8047,
+    "lon": 73.1094,
+    "timezone": "Asia/Almaty"
+  },
+  "stream": {
+    "fps": 1,
+    "bitrateKbps": 400,
+    "width": 640,
+    "height": 480,
+    "rtspUrl": "rtsp://127.0.0.1:8554/weather"
+  },
+  "api": {
+    "baseUrl": "https://weatherapi.foreca.net",
+    "refreshMinutes": 30,
+    "timeoutMs": 10000,
+    "staleAfterMinutes": 90
+  },
+  "state": {
+    "cacheDir": "./state"
+  }
+}
