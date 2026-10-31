@@ -1,0 +1,55 @@
+schema: spec-driven
+
+# Project context (optional)
+# Add only constraints that should guide OpenSpec artifacts and workflows.
+# Include constraints an agent cannot infer by reading the code.
+# Keep general project documentation and discoverable codebase facts out.
+# Example:
+#   context: |
+#     Designs and tasks must cover Windows, macOS, and Linux
+#     Write all artifacts in Spanish
+
+# Per-artifact rules (optional)
+# Add custom rules for specific artifacts.
+# Example:
+#   rules:
+#     proposal:
+#       - Keep proposals under 500 words
+#       - Always state what is out of scope
+#     tasks:
+#       - Break tasks into chunks of max 2 hours
+
+# Per-operation guidance (optional)
+# Add advisory guidance for how apply and archive work should be conducted.
+# This is separate from artifact rules above.
+# Example:
+#   operations:
+#     apply:
+#       guidance:
+#         - Keep test summaries concise
+#     archive:
+#       guidance:
+#         - Summarize the archive outcome before finishing
+#
+# Правила сгруппированы по артефактам: ключ — id артефакта из схемы
+# (proposal / specs / design / tasks). Применяются только к своему артефакту.
+rules:
+  proposal:
+    - "Язык общения и документации: русский"
+    - "Стек: Node.js 20+ LTS, строгий TypeScript (strict, noUncheckedIndexedAccess, exactOptionalPropertyTypes)"
+  specs:
+    - "Язык спецификаций: русский"
+    - "Поток для видеорегистратора (CCTV NVR) отдаётся по RTSP: H.264, yuv420p, без звука"
+    - "На кадре обязательна атрибуция Foreca: официальный логотип Foreca с свободным полем вокруг, читаемый в обоих потоках"
+    - "При недоступности Foreca сервис продолжает вещать, показывая последний успешный прогноз и признак устаревания"
+  design:
+    - "Язык документации: русский"
+    - "Стек: Node.js 20+ LTS, строгий TypeScript (strict, noUncheckedIndexedAccess, exactOptionalPropertyTypes)"
+    - "Типы и валидаторы ответов Foreca только генерируются из foreca-weather-api.openapi.json через @hey-api/openapi-ts + zod; any и рукописные типы API запрещены"
+    - "Транспорт: FFmpeg (libx264, H.264, yuv420p, profile main) + MediaMTX, публикация по RTSP/TCP"
+    - "Один процесс Node: кадры передаются в FFmpeg через pipe, без временных файлов на кадр и без перезапуска FFmpeg при обновлении данных"
+  tasks:
+    - "Язык задач: русский"
+    - "Стек: Node.js 20+ LTS, строгий TypeScript (strict, noUncheckedIndexedAccess, exactOptionalPropertyTypes)"
+    - "Кодогенерация типов и zod-схем из foreca-weather-api.openapi.json через @hey-api/openapi-ts; сгенерированные файлы коммитятся"
+    - "Каждая задача содержит способ проверки: тест, команда или наблюдаемое поведение"

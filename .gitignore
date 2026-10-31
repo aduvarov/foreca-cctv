@@ -1,0 +1,58 @@
+# Зависимости
+node_modules/
+.pnp
+.pnp.js
+.yarn/cache
+.yarn/unplugged
+.yarn/install-state.gz
+
+# Сборка и артефакты компиляции
+dist/
+build/
+*.tsbuildinfo
+coverage/
+.nyc_output/
+
+# Реальная конфигурация содержит токен Foreca — в репозиторий не попадает.
+# В репозитории живёт только config.example.json без секретов.
+config.json
+config.local.json
+config.*.json
+!config.example.json
+
+# Переменные окружения с секретами
+.env
+.env.*
+!.env.example
+
+# Кэш прогноза и runtime-состояние
+state/
+cache/
+*.cache
+tmp/
+temp/
+
+# Журналы
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Данные, которые генерируются при разработке и не являются исходниками
+*.tsbuildinfo
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Локальные настройки редакторов
+.idea/
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# OpenCode ставит зависимости плагинов локально
+.opencode/node_modules/
