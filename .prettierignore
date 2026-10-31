@@ -1,0 +1,34 @@
+node_modules/
+dist/
+coverage/
+build/
+*.tsbuildinfo
+.prettiercache
+
+# генерат и внешние артефакты не форматируем
+src/generated/
+foreca-weather-api.openapi.json
+assets/
+reference/
+
+# OpenSpec-артефакты пишутся по своим правилам
+openspec/
+.opencode/
+
+# реальная конфигурация содержит токен Foreca
+config.json
+config.local.json
+config.*.json
+!config.example.json
+
+# рантайм-состояние
+state/
+*.log
+
+.env
+.env.*
+
+# системный мусор
+.DS_Store
+.idea/
+.vscode/

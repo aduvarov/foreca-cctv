@@ -8,7 +8,8 @@ node_modules/
 
 # Сборка и артефакты компиляции
 dist/
-build/
+build/*
+!build/foreca.normalized.json
 *.tsbuildinfo
 coverage/
 .nyc_output/
