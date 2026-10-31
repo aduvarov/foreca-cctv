@@ -284,7 +284,9 @@ function drawWind(ctx: SKRSContext2D, layout: ChartLayout, theme: Theme): void {
     ctx.fill();
 
     ctx.fillStyle = theme.colors.muted;
-    ctx.font = theme.fonts.label;
+    // Ветер подписывается крупнее прочих: под стрелкой много свободного места,
+    // а на мониторе охраны мелкий текст не читается.
+    ctx.font = theme.fonts.wind;
     ctx.fillText(`${formatSpeed(wind.speedMs)} м/с`, centerX, theme.layout.windLabelBaseline);
   });
 }

@@ -47,8 +47,10 @@ export interface Theme {
     readonly axis: string;
     readonly label: string;
     readonly badge: string;
-    /** Подписи значений у точек экстремумов. */
+    /** Подписи значений у точек экстремумов: размер как у дня недели. */
     readonly extreme: string;
+    /** Подписи скорости ветра под стрелкой. */
+    readonly wind: string;
   };
   /** Логотип: высота и требование свободного поля вокруг. */
   readonly logo: {
@@ -119,9 +121,13 @@ const base = {
     date: 9,
     hour: 8,
     axis: 9,
-    label: 9,
+    label: 10,
     badgeBold: 10,
-    extremeBold: 9,
+    // Подписи экстремумов и ветра намеренно крупные: места по ширине дня
+    // хватает (95 px против 23 px у подписи), а читаемость на мониторе
+    // охраны важнее компактности.
+    extremeBold: 12,
+    wind: 13,
   },
   logoHeight: 26,
   layout: {
@@ -171,6 +177,7 @@ export function createTheme(width = BASE_WIDTH, height = BASE_HEIGHT): Theme {
       label: font(base.fonts.label, 'normal'),
       badge: font(base.fonts.badgeBold, 'bold'),
       extreme: font(base.fonts.extremeBold, 'bold'),
+      wind: font(base.fonts.wind, 'normal'),
     },
     logo: {
       height: px(base.logoHeight),

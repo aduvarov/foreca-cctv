@@ -144,6 +144,33 @@ describe('экстремумы на реальном часе', () => {
   });
 });
 
+describe('размеры подписей', () => {
+  /** Достаёт размер в пикселях из строки шрифта вида `bold 12px ForecaSansBold`. */
+  function fontSize(font: string): number {
+    return Number(/(\d+)px/.exec(font)?.[1] ?? 0);
+  }
+
+  it('подписи экстремумов не меньше подписи дня недели', () => {
+    // Подписи min/max должны читаться так же, как дни недели: места по ширине
+    // дня хватает с большим запасом.
+    expect(fontSize(theme.fonts.extreme)).toBeGreaterThanOrEqual(fontSize(theme.fonts.day));
+  });
+
+  it('подписи ветра крупнее мелких подписей осадков', () => {
+    expect(fontSize(theme.fonts.wind)).toBeGreaterThan(fontSize(theme.fonts.label));
+  });
+
+  it('подписи экстремумов жирные, чтобы не терялись на линии', () => {
+    expect(theme.fonts.extreme).toContain('bold');
+  });
+
+  it('подписи масштабируются вместе с кадром', () => {
+    const big = createTheme(1408, 1152);
+    expect(fontSize(big.fonts.extreme)).toBeGreaterThan(fontSize(theme.fonts.extreme));
+    expect(fontSize(big.fonts.wind)).toBeGreaterThan(fontSize(theme.fonts.wind));
+  });
+});
+
 describe('formatTemperature', () => {
   it('округляет до целого и добавляет градус', () => {
     expect(formatTemperature(9.4)).toBe('9°');
