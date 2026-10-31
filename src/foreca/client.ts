@@ -73,10 +73,18 @@ export class ForecaClient {
   readonly #now: () => Date;
 
   constructor(options: ForecaClientOptions) {
-    if (options.token.trim().length === 0) {
+    const token = options.token.trim();
+    if (token.length === 0) {
       throw new Error('Токен Foreca не задан');
     }
-    this.#token = options.token;
+    // Токен уходит в HTTP-заголовок. Не-ASCII символы там недопустимы:
+    // fetch падает с «сетевой ошибкой», и пользователь ищет проблему не там.
+    if (!/^[\x21-\x7E]+$/.test(token)) {
+      throw new Error(
+        'Токен Foreca содержит недопустимые символы: ожидаются только латиница, цифры и знаки без пробелов',
+      );
+    }
+    this.#token = token;
     this.#baseUrl = (options.baseUrl ?? DEFAULT_BASE_URL).replace(/\/+$/, '');
     this.#timeoutMs = options.timeoutMs ?? DEFAULT_TIMEOUT_MS;
     this.#language = options.defaultLanguage ?? DEFAULT_LANGUAGE;

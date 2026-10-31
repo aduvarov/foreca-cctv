@@ -51,6 +51,20 @@ describe('bootstrapConfig', () => {
     expect(createClient).not.toHaveBeenCalled();
   });
 
+  it('объясняет проблему с токеном, а не отправляет проверять сеть', async () => {
+    const result = await bootstrapConfig({
+      createClient: () => {
+        throw new Error('Токен Foreca содержит недопустимые символы');
+      },
+      token: 'токен-по-русски',
+      locationQuery: 'Караганда',
+    });
+
+    expect(result.ok).toBe(false);
+    if (result.ok) return;
+    expect(result.message).toContain('недопустимые символы');
+  });
+
   it('сообщает о пустой локации без обращения к сети', async () => {
     const createClient = vi.fn();
 

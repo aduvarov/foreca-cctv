@@ -216,6 +216,17 @@ describe('ForecaClient: категории ошибок', () => {
     expect(() => new ForecaClient({ token: '   ' })).toThrow(/Токен/);
   });
 
+  it('отвергает токен с не-ASCII символами до запроса', () => {
+    // Такой токен ломает HTTP-заголовок, и пользователь видит «сетевую ошибку»
+    // вместо понятного «токен неверный».
+    expect(() => new ForecaClient({ token: 'токен-по-русски' })).toThrow(/недопустимые символы/);
+    expect(() => new ForecaClient({ token: 'abc def' })).toThrow(/недопустимые символы/);
+  });
+
+  it('принимает обычный ASCII-токен и обрезает пробелы по краям', () => {
+    expect(() => new ForecaClient({ token: '  abcDEF123._-  ' })).not.toThrow();
+  });
+
   it('обрезает завершающий слэш в базовом адресе', async () => {
     const http = recordingHttp(jsonResponse(threeHourlyResponse));
     const client = new ForecaClient({ token: TOKEN, http, baseUrl: 'https://example.test/' });
