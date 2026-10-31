@@ -18,22 +18,39 @@ import type { Theme } from './theme.js';
  * Полный день при 3-часовой сетке содержит 8 шагов, и рисовать все восемь
  * на 640 px бессмысленно — они физически не помещаются.
  */
-export const DISPLAY_HOURS = [3, 9, 15, 21] as const;
+/**
+ * Сколько иконок показывается в сутках.
+ *
+ * Ровно четыре: на 640 px больше не читается, а меньше — теряется динамика.
+ */
+export const ICONS_PER_DAY = 4;
 
 /**
- * Выбирает шаги дня для показа.
+ * Выбирает шаги дня для показа иконок.
  *
- * Обычный день даёт четыре слота (3, 9, 15, 21). Неполный первый день может
- * не содержать ни одного из этих часов — тогда показываются все его шаги,
- * иначе день остался бы без иконок.
+ * Почему не по конкретным часам: сетка Foreca привязана к моменту запроса и
+ * может быть 20/23/02/05, а не 03/09/15/21. Поиск по фиксированным часам
+ * находил пустое множество, и тогда рисовались все восемь шагов — иконки
+ * налезали друг на друга, а подписи сливались.
+ *
+ * Поэтому шаги делятся на четыре равные группы, и из каждой берётся один
+ * представитель. Так работает при любой сетке.
  */
 export function displaySlots(
   day: WeekChart['days'][number],
 ): readonly WeekChart['days'][number]['slots'][number][] {
-  const preferred = day.slots.filter((slot) =>
-    (DISPLAY_HOURS as readonly number[]).includes(slot.hour),
-  );
-  return preferred.length > 0 ? preferred : day.slots;
+  const { slots } = day;
+  if (slots.length <= ICONS_PER_DAY) return slots;
+
+  const result: WeekChart['days'][number]['slots'][number][] = [];
+  for (let group = 0; group < ICONS_PER_DAY; group += 1) {
+    const from = Math.floor((group * slots.length) / ICONS_PER_DAY);
+    const to = Math.floor(((group + 1) * slots.length) / ICONS_PER_DAY);
+    const middle = Math.floor((from + to - 1) / 2);
+    const slot = slots[middle];
+    if (slot !== undefined) result.push(slot);
+  }
+  return result;
 }
 
 export interface ChartGeometry {

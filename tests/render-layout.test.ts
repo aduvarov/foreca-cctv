@@ -211,24 +211,57 @@ describe('подписи', () => {
 });
 
 describe('displaySlots', () => {
-  it('выбирает четыре слота в полном дне', () => {
+  it('выбирает ровно четыре слота в полном дне', () => {
     const chart = createTestChart();
     const fullDay = chart.days[1];
     expect(fullDay).toBeDefined();
     if (fullDay === undefined) return;
 
-    const slots = displaySlots(fullDay);
-    expect(slots.map((slot) => slot.hour)).toEqual([3, 9, 15, 21]);
+    expect(displaySlots(fullDay)).toHaveLength(4);
   });
 
-  it('показывает все шаги, если предпочтительных часов нет', () => {
+  it('работает при любой сетке часов, а не только 3/9/15/21', () => {
+    // Реальная сетка Foreca привязана к моменту запроса: 20, 23, 02, 05…
+    const chart = createTestChart();
+    const day = chart.days[1];
+    expect(day).toBeDefined();
+    if (day === undefined) return;
+
+    const shifted = {
+      ...day,
+      slots: day.slots.map((slot, index) => ({ ...slot, hour: (20 + index * 3) % 24 })),
+    };
+
+    const chosen = displaySlots(shifted);
+    expect(chosen).toHaveLength(4);
+    // Выбранные часы — из исходного набора, а не выдуманные.
+    for (const slot of chosen) {
+      expect(shifted.slots).toContain(slot);
+    }
+  });
+
+  it('не рисует все восемь шагов, когда сетка не совпала с ожидаемой', () => {
+    const chart = createTestChart();
+    const day = chart.days[1];
+    expect(day).toBeDefined();
+    if (day === undefined) return;
+
+    // Именно этот случай давал наложение иконок на реальном кадре.
+    const odd = {
+      ...day,
+      slots: day.slots.map((slot, index) => ({ ...slot, hour: (20 + index * 3) % 24 })),
+    };
+    expect(displaySlots(odd).length).toBeLessThanOrEqual(4);
+  });
+
+  it('отдаёт все шаги, если их меньше четырёх', () => {
     const chart = createTestChart();
     const day = chart.days[0];
     expect(day).toBeDefined();
     if (day === undefined) return;
 
-    const trimmed = { ...day, slots: day.slots.filter((slot) => slot.hour === 18) };
-    expect(displaySlots(trimmed)).toHaveLength(1);
+    const trimmed = { ...day, slots: day.slots.slice(0, 2) };
+    expect(displaySlots(trimmed)).toHaveLength(2);
   });
 });
 
