@@ -21,7 +21,7 @@
     "codegen:check": "npm run codegen && git diff --exit-code -- src/generated build/foreca.normalized.json"
   },
   "dependencies": {
-    "@napi-rs/canvas": "0.1.100",
+    "@napi-rs/canvas": "0.1.88",
     "zod": "4.6.7"
   },
   "devDependencies": {
