@@ -25,4 +25,14 @@ export default tseslint.config(
     files: ['**/*.js', '**/*.mjs'],
     extends: [tseslint.configs.disableTypeChecked],
   },
+  {
+    // В тестах допустимы приёмы, которые в боевом коде запрещены:
+    // non-null assertion после expect(...).toBeDefined() и «пустые» async-заглушки.
+    files: ['tests/**/*.ts'],
+    rules: {
+      '@typescript-eslint/no-non-null-assertion': 'off',
+      '@typescript-eslint/require-await': 'off',
+      '@typescript-eslint/prefer-promise-reject-errors': 'off',
+    },
+  },
 );
