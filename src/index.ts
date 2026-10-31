@@ -13,6 +13,8 @@ import { loadConfig, resolveConfigPath, saveConfig } from './config/store.js';
 import { createStreamIo, runWizard, WizardCancelledError } from './config/wizard.js';
 import type { ServiceConfig } from './config/schema.js';
 import { ForecaClient } from './foreca/client.js';
+import { startService } from './stream/service.js';
+import type { RunningService } from './stream/service.js';
 
 export interface CliDependencies {
   readonly argv: readonly string[];
@@ -123,6 +125,43 @@ export async function main(deps: CliDependencies): Promise<number> {
 
 export { isInteractive };
 
+/** Собирает боевой сервис из конфигурации. */
+async function runProductionService(config: ServiceConfig): Promise<void> {
+  const service = await startService({
+    config,
+    client: new ForecaClient({
+      token: config.forecaToken,
+      baseUrl: config.api.baseUrl,
+      timeoutMs: config.api.timeoutMs,
+    }),
+  });
+
+  installShutdownHandlers(service);
+  await service.finished;
+}
+
+/** Остановка по сигналу: FFmpeg должен завершиться, а не остаться сиротой. */
+function installShutdownHandlers(service: RunningService): void {
+  let stopping = false;
+
+  const shutdown = (signal: string): void => {
+    if (stopping) return;
+    stopping = true;
+    process.stderr.write(`получен ${signal}, останавливаюсь\n`);
+    service.stop().catch((error: unknown) => {
+      process.stderr.write(`ошибка при остановке: ${String(error)}\n`);
+      process.exitCode = 1;
+    });
+  };
+
+  process.once('SIGINT', () => {
+    shutdown('SIGINT');
+  });
+  process.once('SIGTERM', () => {
+    shutdown('SIGTERM');
+  });
+}
+
 // Запуск как CLI: main вызывается только при прямом выполнении файла,
 // чтобы импорт из тестов не стартовал сервис.
 if (process.argv[1] !== undefined && resolve(process.argv[1]) === resolve(import.meta.filename)) {
@@ -132,10 +171,7 @@ if (process.argv[1] !== undefined && resolve(process.argv[1]) === resolve(import
     stdout: process.stdout,
     stderr: process.stderr,
     interactive: isInteractive(),
-    runService: () => {
-      process.stderr.write('Вещание ещё не реализовано: см. capability rtsp-stream\n');
-      return Promise.resolve();
-    },
+    runService: runProductionService,
   });
   process.exitCode = code;
 }

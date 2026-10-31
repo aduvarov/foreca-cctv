@@ -125,6 +125,19 @@ export class ForecastScheduler {
     }
   }
 
+  /**
+   * Ждёт завершения идущего обновления.
+   *
+   * Нужен при остановке: иначе запись кэша может произойти уже после того,
+   * как сервис закрыл файлы, а процесс завершится с «фоновой» записью на диске.
+   */
+  async drain(): Promise<void> {
+    const inFlight = this.#inFlight;
+    if (inFlight === undefined) return;
+    // Ошибки обновления уже обработаны внутри refresh.
+    await inFlight.catch(() => undefined);
+  }
+
   async #doRefresh(): Promise<RefreshResult> {
     const { client, cache, location, fetchThreeHourly } = this.#deps;
 

@@ -48,6 +48,9 @@ export const apiConfigSchema = z.object({
 
 export const stateConfigSchema = z.object({
   cacheDir: z.string().min(1).default('./state'),
+  /** Порт локального сервера состояния и снимка. */
+  healthPort: z.number().int().min(0).max(65_535).default(9_970),
+  healthHost: z.string().min(1).default('127.0.0.1'),
 });
 
 export const configSchema = z.object({
