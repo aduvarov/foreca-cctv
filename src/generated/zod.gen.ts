@@ -17,16 +17,16 @@ export const zGetApiV1LocationSearchQueryQuery = z.object({
  */
 export const zGetApiV1LocationSearchQueryResponse = z.object({
     locations: z.array(z.object({
-        id: z.number().optional(),
-        name: z.string().optional(),
-        country: z.string().optional(),
-        timezone: z.string().optional(),
-        language: z.string().optional(),
-        adminArea: z.string().optional(),
-        adminArea2: z.string().optional(),
+        id: z.number().nullish(),
+        name: z.string().nullish(),
+        country: z.string().nullish(),
+        timezone: z.string().nullish(),
+        language: z.string().nullish(),
+        adminArea: z.string().nullish(),
+        adminArea2: z.string().nullish(),
         adminArea3: z.string().nullish(),
-        lon: z.number().optional(),
-        lat: z.number().optional()
+        lon: z.number().nullish(),
+        lat: z.number().nullish()
     })).optional()
 });
 
@@ -42,16 +42,16 @@ export const zGetApiV1LocationLocationQuery = z.object({
  * Success
  */
 export const zGetApiV1LocationLocationResponse = z.object({
-    id: z.number().optional(),
-    name: z.string().optional(),
-    country: z.string().optional(),
-    timezone: z.string().optional(),
-    language: z.string().optional(),
-    adminArea: z.string().optional(),
+    id: z.number().nullish(),
+    name: z.string().nullish(),
+    country: z.string().nullish(),
+    timezone: z.string().nullish(),
+    language: z.string().nullish(),
+    adminArea: z.string().nullish(),
     adminArea2: z.string().nullish(),
     adminArea3: z.string().nullish(),
-    lon: z.number().optional(),
-    lat: z.number().optional()
+    lon: z.number().nullish(),
+    lat: z.number().nullish()
 });
 
 export const zGetApiV1ObservationLatestLocationPath = z.object({
@@ -72,33 +72,33 @@ export const zGetApiV1ObservationLatestLocationQuery = z.object({
  */
 export const zGetApiV1ObservationLatestLocationResponse = z.object({
     observations: z.array(z.object({
-        distance: z.string().optional(),
-        elevation: z.number().optional(),
-        feelsLikeTemp: z.number().optional(),
-        latitude: z.number().optional(),
-        longitude: z.number().optional(),
+        distance: z.string().nullish(),
+        elevation: z.number().nullish(),
+        feelsLikeTemp: z.number().nullish(),
+        latitude: z.number().nullish(),
+        longitude: z.number().nullish(),
         precipitation: z.array(z.object({
-            accum: z.number().optional(),
-            endtime: z.string().optional(),
-            period: z.string().optional()
+            accum: z.number().nullish(),
+            endtime: z.string().nullish(),
+            period: z.string().nullish()
         })).optional(),
         precip1h: z.array(z.object({
-            accum: z.number().optional(),
-            endtime: z.string().optional(),
-            prectype: z.string().optional()
+            accum: z.number().nullish(),
+            endtime: z.string().nullish(),
+            prectype: z.string().nullish()
         })).optional(),
-        pressure: z.number().optional(),
-        relHumidity: z.number().optional(),
-        snowDepth: z.number().optional(),
-        station: z.string().optional(),
-        symbol: z.string().optional(),
-        temperature: z.number().optional(),
-        time: z.string().optional(),
-        visibility: z.number().optional(),
-        windDir: z.number().optional(),
-        windDirString: z.string().optional(),
-        windGust: z.number().optional(),
-        windSpeed: z.number().optional()
+        pressure: z.number().nullish(),
+        relHumidity: z.number().nullish(),
+        snowDepth: z.number().nullish(),
+        station: z.string().nullish(),
+        symbol: z.string().nullish(),
+        temperature: z.number().nullish(),
+        time: z.string().nullish(),
+        visibility: z.number().nullish(),
+        windDir: z.number().nullish(),
+        windDirString: z.string().nullish(),
+        windGust: z.number().nullish(),
+        windSpeed: z.number().nullish()
     })).optional()
 });
 
@@ -120,24 +120,24 @@ export const zGetApiV1CurrentLocationQuery = z.object({
  */
 export const zGetApiV1CurrentLocationResponse = z.object({
     current: z.object({
-        time: z.string().optional(),
-        symbol: z.string().optional(),
-        symbolPhrase: z.string().optional(),
-        temperature: z.number().optional(),
-        feelsLikeTemp: z.number().optional(),
-        relHumidity: z.number().optional(),
-        dewPoint: z.number().optional(),
-        windSpeed: z.number().optional(),
-        windDir: z.number().optional(),
-        windDirString: z.string().optional(),
-        windGust: z.number().optional(),
-        precipProb: z.number().optional(),
-        precipRate: z.number().optional(),
-        cloudiness: z.number().optional(),
-        thunderProb: z.number().optional(),
-        uvIndex: z.number().optional(),
-        pressure: z.number().optional(),
-        visibility: z.number().optional()
+        time: z.string().nullish(),
+        symbol: z.string().nullish(),
+        symbolPhrase: z.string().nullish(),
+        temperature: z.number().nullish(),
+        feelsLikeTemp: z.number().nullish(),
+        relHumidity: z.number().nullish(),
+        dewPoint: z.number().nullish(),
+        windSpeed: z.number().nullish(),
+        windDir: z.number().nullish(),
+        windDirString: z.string().nullish(),
+        windGust: z.number().nullish(),
+        precipProb: z.number().nullish(),
+        precipRate: z.number().nullish(),
+        cloudiness: z.number().nullish(),
+        thunderProb: z.number().nullish(),
+        uvIndex: z.number().nullish(),
+        pressure: z.number().nullish(),
+        visibility: z.number().nullish()
     }).optional()
 });
 
@@ -155,10 +155,10 @@ export const zGetApiV1ForecastMinutelyLocationQuery = z.object({
  */
 export const zGetApiV1ForecastMinutelyLocationResponse = z.object({
     forecast: z.array(z.object({
-        time: z.string().optional(),
-        precipRate: z.number().optional()
+        time: z.string().nullish(),
+        precipRate: z.number().nullish()
     })).optional(),
-    resolution: z.number().optional()
+    resolution: z.number().nullish()
 });
 
 export const zGetApiV1Forecast15MinutelyLocationPath = z.object({
@@ -181,26 +181,26 @@ export const zGetApiV1Forecast15MinutelyLocationQuery = z.object({
  */
 export const zGetApiV1Forecast15MinutelyLocationResponse = z.object({
     forecast: z.array(z.object({
-        time: z.string().optional(),
-        symbol: z.string().optional(),
-        symbolPhrase: z.string().optional(),
-        temperature: z.number().optional(),
-        feelsLikeTemp: z.number().optional(),
-        relHumidity: z.number().optional(),
-        dewPoint: z.number().optional(),
-        windDir: z.number().optional(),
-        windSpeed: z.number().optional(),
-        windGust: z.number().optional(),
-        windDirString: z.string().optional(),
-        precipProb: z.number().optional(),
-        snowRate: z.number().optional(),
-        precipRate: z.number().optional(),
-        cloudiness: z.number().optional(),
-        thunderProb: z.number().optional(),
-        uvIndex: z.number().optional(),
-        pressure: z.number().optional(),
-        visibility: z.number().optional(),
-        precipType: z.string().optional()
+        time: z.string().nullish(),
+        symbol: z.string().nullish(),
+        symbolPhrase: z.string().nullish(),
+        temperature: z.number().nullish(),
+        feelsLikeTemp: z.number().nullish(),
+        relHumidity: z.number().nullish(),
+        dewPoint: z.number().nullish(),
+        windDir: z.number().nullish(),
+        windSpeed: z.number().nullish(),
+        windGust: z.number().nullish(),
+        windDirString: z.string().nullish(),
+        precipProb: z.number().nullish(),
+        snowRate: z.number().nullish(),
+        precipRate: z.number().nullish(),
+        cloudiness: z.number().nullish(),
+        thunderProb: z.number().nullish(),
+        uvIndex: z.number().nullish(),
+        pressure: z.number().nullish(),
+        visibility: z.number().nullish(),
+        precipType: z.string().nullish()
     })).optional()
 });
 
@@ -225,28 +225,28 @@ export const zGetApiV1ForecastHourlyLocationQuery = z.object({
  */
 export const zGetApiV1ForecastHourlyLocationResponse = z.object({
     forecast: z.array(z.object({
-        time: z.string().optional(),
-        symbol: z.string().optional(),
-        symbolPhrase: z.string().optional(),
-        temperature: z.number().optional(),
-        feelsLikeTemp: z.number().optional(),
-        windSpeed: z.number().optional(),
-        windGust: z.number().optional(),
-        relHumidity: z.number().optional(),
-        dewPoint: z.number().optional(),
-        windDir: z.number().optional(),
-        windDirString: z.string().optional(),
-        precipProb: z.number().optional(),
-        precipAccum: z.number().optional(),
-        snowAccum: z.number().optional(),
-        cloudiness: z.number().optional(),
-        thunderProb: z.number().optional(),
-        uvIndex: z.number().optional(),
-        pressure: z.number().optional(),
-        visibility: z.number().optional(),
-        precipType: z.string().optional(),
-        solarRadiation: z.number().optional(),
-        snowDepth: z.number().optional()
+        time: z.string().nullish(),
+        symbol: z.string().nullish(),
+        symbolPhrase: z.string().nullish(),
+        temperature: z.number().nullish(),
+        feelsLikeTemp: z.number().nullish(),
+        windSpeed: z.number().nullish(),
+        windGust: z.number().nullish(),
+        relHumidity: z.number().nullish(),
+        dewPoint: z.number().nullish(),
+        windDir: z.number().nullish(),
+        windDirString: z.string().nullish(),
+        precipProb: z.number().nullish(),
+        precipAccum: z.number().nullish(),
+        snowAccum: z.number().nullish(),
+        cloudiness: z.number().nullish(),
+        thunderProb: z.number().nullish(),
+        uvIndex: z.number().nullish(),
+        pressure: z.number().nullish(),
+        visibility: z.number().nullish(),
+        precipType: z.string().nullish(),
+        solarRadiation: z.number().nullish(),
+        snowDepth: z.number().nullish()
     })).optional()
 });
 
@@ -271,27 +271,27 @@ export const zGetApiV1Forecast3HourlyLocationQuery = z.object({
  */
 export const zGetApiV1Forecast3HourlyLocationResponse = z.object({
     forecast: z.array(z.object({
-        time: z.string().optional(),
-        symbol: z.string().optional(),
-        symbolPhrase: z.string().optional(),
-        temperature: z.number().optional(),
-        feelsLikeTemp: z.number().optional(),
-        windSpeed: z.number().optional(),
-        windGust: z.number().optional(),
-        relHumidity: z.number().optional(),
-        dewPoint: z.number().optional(),
-        windDir: z.number().optional(),
-        windDirString: z.string().optional(),
-        precipProb: z.number().optional(),
-        precipAccum: z.number().optional(),
-        snowAccum: z.number().optional(),
-        cloudiness: z.number().optional(),
-        thunderProb: z.number().optional(),
-        uvIndex: z.number().optional(),
-        pressure: z.number().optional(),
-        visibility: z.number().optional(),
-        precipType: z.string().optional(),
-        solarRadiation: z.number().optional()
+        time: z.string().nullish(),
+        symbol: z.string().nullish(),
+        symbolPhrase: z.string().nullish(),
+        temperature: z.number().nullish(),
+        feelsLikeTemp: z.number().nullish(),
+        windSpeed: z.number().nullish(),
+        windGust: z.number().nullish(),
+        relHumidity: z.number().nullish(),
+        dewPoint: z.number().nullish(),
+        windDir: z.number().nullish(),
+        windDirString: z.string().nullish(),
+        precipProb: z.number().nullish(),
+        precipAccum: z.number().nullish(),
+        snowAccum: z.number().nullish(),
+        cloudiness: z.number().nullish(),
+        thunderProb: z.number().nullish(),
+        uvIndex: z.number().nullish(),
+        pressure: z.number().nullish(),
+        visibility: z.number().nullish(),
+        precipType: z.string().nullish(),
+        solarRadiation: z.number().nullish()
     })).optional()
 });
 
@@ -315,59 +315,59 @@ export const zGetApiV1ForecastDailyLocationQuery = z.object({
  */
 export const zGetApiV1ForecastDailyLocationResponse = z.object({
     forecast: z.array(z.object({
-        date: z.string().optional(),
-        cloudiness: z.number().optional(),
-        confidence: z.string().optional(),
-        maxDewPoint: z.number().optional(),
-        maxFeelsLikeTemp: z.number().optional(),
-        maxRelHumidity: z.number().optional(),
-        maxTemp: z.number().optional(),
+        date: z.string().nullish(),
+        cloudiness: z.number().nullish(),
+        confidence: z.string().nullish(),
+        maxDewPoint: z.number().nullish(),
+        maxFeelsLikeTemp: z.number().nullish(),
+        maxRelHumidity: z.number().nullish(),
+        maxTemp: z.number().nullish(),
         maxTempEnsemble: z.object({
-            p000: z.number().optional(),
-            p025: z.number().optional(),
-            p050: z.number().optional(),
-            p075: z.number().optional(),
-            p100: z.number().optional()
+            p000: z.number().nullish(),
+            p025: z.number().nullish(),
+            p050: z.number().nullish(),
+            p075: z.number().nullish(),
+            p100: z.number().nullish()
         }).optional(),
-        maxWindGust: z.number().optional(),
-        maxWindSpeed: z.number().optional(),
-        minDewPoint: z.number().optional(),
-        minFeelsLikeTemp: z.number().optional(),
-        minRelHumidity: z.number().optional(),
-        minTemp: z.number().optional(),
+        maxWindGust: z.number().nullish(),
+        maxWindSpeed: z.number().nullish(),
+        minDewPoint: z.number().nullish(),
+        minFeelsLikeTemp: z.number().nullish(),
+        minRelHumidity: z.number().nullish(),
+        minTemp: z.number().nullish(),
         minTempEnsemble: z.object({
-            p000: z.number().optional(),
-            p025: z.number().optional(),
-            p050: z.number().optional(),
-            p075: z.number().optional(),
-            p100: z.number().optional()
+            p000: z.number().nullish(),
+            p025: z.number().nullish(),
+            p050: z.number().nullish(),
+            p075: z.number().nullish(),
+            p100: z.number().nullish()
         }).optional(),
-        minVisibility: z.number().optional(),
-        moonPhase: z.number().optional(),
-        moonrise: z.string().optional(),
-        moonset: z.string().optional(),
-        precipAccum: z.number().optional(),
+        minVisibility: z.number().nullish(),
+        moonPhase: z.number().nullish(),
+        moonrise: z.string().nullish(),
+        moonset: z.string().nullish(),
+        precipAccum: z.number().nullish(),
         precipAccumEnsemble: z.object({
-            p010: z.number().optional(),
-            p025: z.number().optional(),
-            p050: z.number().optional(),
-            p075: z.number().optional(),
-            p090: z.number().optional()
+            p010: z.number().nullish(),
+            p025: z.number().nullish(),
+            p050: z.number().nullish(),
+            p075: z.number().nullish(),
+            p090: z.number().nullish()
         }).optional(),
-        precipProb: z.number().optional(),
-        pressure: z.number().optional(),
-        snowAccum: z.number().optional(),
-        snowDepth: z.number().optional(),
-        solarRadiationSum: z.number().optional(),
-        sunhours: z.number().optional(),
-        sunrise: z.string().optional(),
-        sunriseEpoch: z.number().optional(),
-        sunset: z.string().optional(),
-        sunsetEpoch: z.number().optional(),
-        symbol: z.string().optional(),
-        symbolPhrase: z.string().optional(),
-        uvIndex: z.number().optional(),
-        windDir: z.number().optional()
+        precipProb: z.number().nullish(),
+        pressure: z.number().nullish(),
+        snowAccum: z.number().nullish(),
+        snowDepth: z.number().nullish(),
+        solarRadiationSum: z.number().nullish(),
+        sunhours: z.number().nullish(),
+        sunrise: z.string().nullish(),
+        sunriseEpoch: z.number().nullish(),
+        sunset: z.string().nullish(),
+        sunsetEpoch: z.number().nullish(),
+        symbol: z.string().nullish(),
+        symbolPhrase: z.string().nullish(),
+        uvIndex: z.number().nullish(),
+        windDir: z.number().nullish()
     })).optional()
 });
 
@@ -380,25 +380,25 @@ export const zGetApiV1CapabilitiesQuery = z.object({
  */
 export const zGetApiV1CapabilitiesResponse = z.object({
     images: z.array(z.object({
-        id: z.number().optional(),
+        id: z.number().nullish(),
         attribution: z.string().nullish(),
-        title: z.string().optional(),
-        description: z.string().optional(),
+        title: z.string().nullish(),
+        description: z.string().nullish(),
         formats: z.array(z.string()).optional(),
         colorschemes: z.array(z.string()).optional(),
         times: z.object({
-            updated: z.string().optional(),
+            updated: z.string().nullish(),
             available: z.array(z.string()).optional(),
-            current: z.number().optional()
+            current: z.number().nullish()
         }).optional(),
-        analysis: z.string().optional(),
+        analysis: z.string().nullish(),
         extent: z.object({
-            minLat: z.number().optional(),
-            maxLat: z.number().optional(),
-            minLon: z.number().optional(),
-            maxLon: z.number().optional(),
-            minZoom: z.number().optional(),
-            maxZoom: z.number().optional()
+            minLat: z.number().nullish(),
+            maxLat: z.number().nullish(),
+            minLon: z.number().nullish(),
+            maxLon: z.number().nullish(),
+            minZoom: z.number().nullish(),
+            maxZoom: z.number().nullish()
         }).optional()
     })).optional()
 });
@@ -436,14 +436,14 @@ export const zGetApiV1SymbolModeQuery = z.object({
  */
 export const zGetApiV1SymbolModeResponse = z.object({
     locations: z.array(z.object({
-        city: z.string().optional(),
-        id: z.number().optional(),
-        lat: z.string().optional(),
-        lon: z.string().optional(),
+        city: z.string().nullish(),
+        id: z.number().nullish(),
+        lat: z.string().nullish(),
+        lon: z.string().nullish(),
         timesteps: z.array(z.object({
-            symbol: z.string().optional(),
-            temperature: z.number().optional(),
-            time: z.string().optional()
+            symbol: z.string().nullish(),
+            temperature: z.number().nullish(),
+            time: z.string().nullish()
         })).optional()
     })).optional()
 });
@@ -472,16 +472,16 @@ export const zGetApiV1AirQualityForecastHourlyLocationQuery = z.object({
  */
 export const zGetApiV1AirQualityForecastHourlyLocationResponse = z.object({
     forecast: z.array(z.object({
-        time: z.string().optional(),
-        pollutant: z.string().optional(),
-        pollutantPhrase: z.string().optional(),
-        AQI: z.number().optional(),
-        AQI_CO: z.number().optional(),
-        AQI_NO2: z.number().optional(),
-        AQI_O3: z.number().optional(),
-        AQI_SO2: z.number().optional(),
-        AQI_PM10: z.number().optional(),
-        AQI_PM2P5: z.number().optional()
+        time: z.string().nullish(),
+        pollutant: z.string().nullish(),
+        pollutantPhrase: z.string().nullish(),
+        AQI: z.number().nullish(),
+        AQI_CO: z.number().nullish(),
+        AQI_NO2: z.number().nullish(),
+        AQI_O3: z.number().nullish(),
+        AQI_SO2: z.number().nullish(),
+        AQI_PM10: z.number().nullish(),
+        AQI_PM2P5: z.number().nullish()
     })).optional()
 });
 
@@ -499,16 +499,16 @@ export const zGetApiV1AirQualityForecastDailyLocationQuery = z.object({
  */
 export const zGetApiV1AirQualityForecastDailyLocationResponse = z.object({
     forecast: z.array(z.object({
-        date: z.string().optional(),
-        AQI: z.number().optional(),
-        pollutant: z.string().optional(),
-        pollutantPhrase: z.string().optional(),
-        AQI_CO: z.number().optional(),
-        AQI_NO2: z.number().optional(),
-        AQI_GO3: z.number().optional(),
-        AQI_SO2: z.number().optional(),
-        AQI_PM2P5: z.number().optional(),
-        AQI_PM10: z.number().optional()
+        date: z.string().nullish(),
+        AQI: z.number().nullish(),
+        pollutant: z.string().nullish(),
+        pollutantPhrase: z.string().nullish(),
+        AQI_CO: z.number().nullish(),
+        AQI_NO2: z.number().nullish(),
+        AQI_GO3: z.number().nullish(),
+        AQI_SO2: z.number().nullish(),
+        AQI_PM2P5: z.number().nullish(),
+        AQI_PM10: z.number().nullish()
     })).optional()
 });
 
@@ -526,19 +526,19 @@ export const zGetApiV1PollenForecastHourlyLocationQuery = z.object({
  */
 export const zGetApiV1PollenForecastHourlyLocationResponse = z.object({
     forecast: z.array(z.object({
-        time: z.string().optional(),
-        alder: z.number().optional(),
-        birch: z.number().optional(),
-        grass: z.number().optional(),
-        mugwort: z.number().optional(),
-        olive: z.number().optional(),
-        ragweed: z.number().optional(),
-        alder_m3: z.number().optional(),
-        birch_m3: z.number().optional(),
-        grass_m3: z.number().optional(),
-        mugwort_m3: z.number().optional(),
-        olive_m3: z.number().optional(),
-        ragweed_m3: z.number().optional()
+        time: z.string().nullish(),
+        alder: z.number().nullish(),
+        birch: z.number().nullish(),
+        grass: z.number().nullish(),
+        mugwort: z.number().nullish(),
+        olive: z.number().nullish(),
+        ragweed: z.number().nullish(),
+        alder_m3: z.number().nullish(),
+        birch_m3: z.number().nullish(),
+        grass_m3: z.number().nullish(),
+        mugwort_m3: z.number().nullish(),
+        olive_m3: z.number().nullish(),
+        ragweed_m3: z.number().nullish()
     })).optional()
 });
 
@@ -555,19 +555,19 @@ export const zGetApiV1PollenForecastDailyLocationQuery = z.object({
  */
 export const zGetApiV1PollenForecastDailyLocationResponse = z.object({
     forecast: z.array(z.object({
-        date: z.string().optional(),
-        alder: z.number().optional(),
-        birch: z.number().optional(),
-        grass: z.number().optional(),
-        mugwort: z.number().optional(),
-        olive: z.number().optional(),
-        ragweed: z.number().optional(),
-        alder_m3: z.number().optional(),
-        birch_m3: z.number().optional(),
-        grass_m3: z.number().optional(),
-        mugwort_m3: z.number().optional(),
-        olive_m3: z.number().optional(),
-        ragweed_m3: z.number().optional()
+        date: z.string().nullish(),
+        alder: z.number().nullish(),
+        birch: z.number().nullish(),
+        grass: z.number().nullish(),
+        mugwort: z.number().nullish(),
+        olive: z.number().nullish(),
+        ragweed: z.number().nullish(),
+        alder_m3: z.number().nullish(),
+        birch_m3: z.number().nullish(),
+        grass_m3: z.number().nullish(),
+        mugwort_m3: z.number().nullish(),
+        olive_m3: z.number().nullish(),
+        ragweed_m3: z.number().nullish()
     })).optional()
 });
 
@@ -584,14 +584,14 @@ export const zGetApiV1ClimateMonthlyLocationQuery = z.object({
  */
 export const zGetApiV1ClimateMonthlyLocationResponse = z.object({
     climate: z.array(z.object({
-        month: z.string().optional(),
-        dayMaxTemp: z.number().optional(),
-        dayMinTemp: z.number().optional(),
-        dayAvgTemp: z.number().optional(),
-        precipSum: z.number().optional(),
-        dailyPrecip: z.number().optional(),
-        rainDays: z.number().optional(),
-        frostDays: z.number().optional(),
+        month: z.string().nullish(),
+        dayMaxTemp: z.number().nullish(),
+        dayMinTemp: z.number().nullish(),
+        dayAvgTemp: z.number().nullish(),
+        precipSum: z.number().nullish(),
+        dailyPrecip: z.number().nullish(),
+        rainDays: z.number().nullish(),
+        frostDays: z.number().nullish(),
         seaSurfaceTemp: z.number().nullish()
     })).optional()
 });
@@ -610,11 +610,11 @@ export const zGetApiV1ClimateDailyLocationQuery = z.object({
  */
 export const zGetApiV1ClimateDailyLocationResponse = z.object({
     climate: z.array(z.object({
-        month: z.string().optional(),
-        day: z.string().optional(),
-        avgMinTemp: z.number().optional(),
-        avgTemp: z.number().optional(),
-        avgMaxTemp: z.number().optional()
+        month: z.string().nullish(),
+        day: z.string().nullish(),
+        avgMinTemp: z.number().nullish(),
+        avgTemp: z.number().nullish(),
+        avgMaxTemp: z.number().nullish()
     })).optional()
 });
 
@@ -639,111 +639,111 @@ export const zGetYourEndpointIdJsonPhpQuery = z.object({
  */
 export const zGetYourEndpointIdJsonPhpResponse = z.object({
     station: z.object({
-        name: z.string().optional(),
-        lon: z.number().optional(),
-        lat: z.number().optional()
+        name: z.string().nullish(),
+        lon: z.number().nullish(),
+        lat: z.number().nullish()
     }).optional(),
     hourly: z.object({
         date: z.object({
-            pretty: z.string().optional(),
-            year: z.string().optional(),
-            month: z.string().optional(),
-            day: z.string().optional(),
-            hour: z.string().optional(),
-            min: z.string().optional(),
-            tz: z.string().optional()
+            pretty: z.string().nullish(),
+            year: z.string().nullish(),
+            month: z.string().nullish(),
+            day: z.string().nullish(),
+            hour: z.string().nullish(),
+            min: z.string().nullish(),
+            tz: z.string().nullish()
         }).optional(),
         utcdate: z.object({
-            iso8601: z.string().optional(),
-            year: z.string().optional(),
-            month: z.string().optional(),
-            day: z.string().optional(),
-            hour: z.string().optional(),
-            min: z.string().optional(),
-            tz: z.string().optional()
+            iso8601: z.string().nullish(),
+            year: z.string().nullish(),
+            month: z.string().nullish(),
+            day: z.string().nullish(),
+            hour: z.string().nullish(),
+            min: z.string().nullish(),
+            tz: z.string().nullish()
         }).optional(),
         observations: z.array(z.object({
             dt: z.object({
-                pretty: z.string().optional(),
-                year: z.string().optional(),
-                month: z.string().optional(),
-                day: z.string().optional(),
-                hour: z.string().optional(),
-                min: z.string().optional(),
-                tz: z.string().optional()
+                pretty: z.string().nullish(),
+                year: z.string().nullish(),
+                month: z.string().nullish(),
+                day: z.string().nullish(),
+                hour: z.string().nullish(),
+                min: z.string().nullish(),
+                tz: z.string().nullish()
             }).optional(),
             dtu: z.object({
-                iso8601: z.string().optional(),
-                year: z.string().optional(),
-                month: z.string().optional(),
-                day: z.string().optional(),
-                hour: z.string().optional(),
-                min: z.string().optional(),
-                tz: z.string().optional()
+                iso8601: z.string().nullish(),
+                year: z.string().nullish(),
+                month: z.string().nullish(),
+                day: z.string().nullish(),
+                hour: z.string().nullish(),
+                min: z.string().nullish(),
+                tz: z.string().nullish()
             }).optional(),
-            t: z.string().optional(),
-            d: z.string().optional(),
-            rh: z.string().optional(),
-            ws: z.string().optional(),
-            gust: z.string().optional(),
-            wd: z.string().optional(),
-            wn: z.string().optional(),
-            v: z.string().optional(),
-            p: z.string().optional(),
-            tf: z.string().optional(),
-            pr1: z.string().optional(),
-            sT: z.string().optional(),
-            s: z.string().optional(),
-            fog: z.string().optional(),
-            rain: z.string().optional(),
-            snow: z.string().optional(),
-            hail: z.string().optional(),
-            thunder: z.string().optional(),
-            tornado: z.string().optional()
+            t: z.string().nullish(),
+            d: z.string().nullish(),
+            rh: z.string().nullish(),
+            ws: z.string().nullish(),
+            gust: z.string().nullish(),
+            wd: z.string().nullish(),
+            wn: z.string().nullish(),
+            v: z.string().nullish(),
+            p: z.string().nullish(),
+            tf: z.string().nullish(),
+            pr1: z.string().nullish(),
+            sT: z.string().nullish(),
+            s: z.string().nullish(),
+            fog: z.string().nullish(),
+            rain: z.string().nullish(),
+            snow: z.string().nullish(),
+            hail: z.string().nullish(),
+            thunder: z.string().nullish(),
+            tornado: z.string().nullish()
         })).optional()
     }).optional(),
     dailysummary: z.object({
         dt: z.object({
-            pretty: z.string().optional(),
-            year: z.string().optional(),
-            month: z.string().optional(),
-            day: z.string().optional(),
-            hour: z.string().optional(),
-            min: z.string().optional(),
-            tz: z.string().optional()
+            pretty: z.string().nullish(),
+            year: z.string().nullish(),
+            month: z.string().nullish(),
+            day: z.string().nullish(),
+            hour: z.string().nullish(),
+            min: z.string().nullish(),
+            tz: z.string().nullish()
         }).optional(),
-        fog: z.string().optional(),
-        rain: z.string().optional(),
-        snow: z.string().optional(),
-        snowfall: z.string().optional(),
-        snowfallmonthtodate: z.string().optional(),
-        snowfallsincejul1: z.string().optional(),
-        snowdepth: z.string().optional(),
-        hail: z.string().optional(),
-        thunder: z.string().optional(),
-        tornado: z.string().optional(),
-        ta: z.string().optional(),
-        da: z.string().optional(),
-        pa: z.string().optional(),
-        wsa: z.string().optional(),
-        wna: z.string().optional(),
-        wda: z.string().optional(),
-        va: z.string().optional(),
-        rha: z.string().optional(),
-        tx: z.string().optional(),
-        tn: z.string().optional(),
-        rhx: z.string().optional(),
-        rhn: z.string().optional(),
-        dx: z.string().optional(),
-        dn: z.string().optional(),
-        px: z.string().optional(),
-        pn: z.string().optional(),
-        wsx: z.string().optional(),
-        wsn: z.string().optional(),
-        vx: z.string().optional(),
-        vn: z.string().optional(),
-        pr24: z.string().optional(),
-        prtype: z.string().optional()
+        fog: z.string().nullish(),
+        rain: z.string().nullish(),
+        snow: z.string().nullish(),
+        snowfall: z.string().nullish(),
+        snowfallmonthtodate: z.string().nullish(),
+        snowfallsincejul1: z.string().nullish(),
+        snowdepth: z.string().nullish(),
+        hail: z.string().nullish(),
+        thunder: z.string().nullish(),
+        tornado: z.string().nullish(),
+        ta: z.string().nullish(),
+        da: z.string().nullish(),
+        pa: z.string().nullish(),
+        wsa: z.string().nullish(),
+        wna: z.string().nullish(),
+        wda: z.string().nullish(),
+        va: z.string().nullish(),
+        rha: z.string().nullish(),
+        tx: z.string().nullish(),
+        tn: z.string().nullish(),
+        rhx: z.string().nullish(),
+        rhn: z.string().nullish(),
+        dx: z.string().nullish(),
+        dn: z.string().nullish(),
+        px: z.string().nullish(),
+        pn: z.string().nullish(),
+        wsx: z.string().nullish(),
+        wsn: z.string().nullish(),
+        vx: z.string().nullish(),
+        vn: z.string().nullish(),
+        pr24: z.string().nullish(),
+        prtype: z.string().nullish()
     }).optional()
 });
 
@@ -761,20 +761,20 @@ export const zGetApiV1WarningLocationQuery = z.object({
  */
 export const zGetApiV1WarningLocationResponse = z.object({
     warnings: z.array(z.object({
-        type: z.string().optional(),
-        significance: z.string().optional(),
+        type: z.string().nullish(),
+        significance: z.string().nullish(),
         attribution: z.string().nullish(),
-        validFrom: z.string().optional(),
-        validUntil: z.string().optional(),
+        validFrom: z.string().nullish(),
+        validUntil: z.string().nullish(),
         description: z.array(z.object({
-            lang: z.string().optional(),
-            text: z.string().optional()
+            lang: z.string().nullish(),
+            text: z.string().nullish()
         })).optional(),
         attributionUrl: z.string().nullish(),
-        link: z.string().optional(),
-        sent: z.string().optional(),
-        name: z.string().optional(),
-        significanceDescription: z.string().optional()
+        link: z.string().nullish(),
+        sent: z.string().nullish(),
+        name: z.string().nullish(),
+        significanceDescription: z.string().nullish()
     })).optional()
 });
 
@@ -783,19 +783,19 @@ export const zGetApiV1WarningLocationResponse = z.object({
  */
 export const zGetApiV1WarningTypesResponse = z.object({
     AQ: z.object({
-        name: z.string().optional()
+        name: z.string().nullish()
     }).optional(),
     AS: z.object({
-        name: z.string().optional()
+        name: z.string().nullish()
     }).optional(),
     AV: z.object({
-        name: z.string().optional()
+        name: z.string().nullish()
     }).optional(),
     CD: z.object({
-        name: z.string().optional()
+        name: z.string().nullish()
     }).optional(),
     CE: z.object({
-        name: z.string().optional()
+        name: z.string().nullish()
     }).optional()
 });
 
@@ -815,19 +815,19 @@ export const zGetApiV1MarineForecastHourlyLocationQuery = z.object({
  */
 export const zGetApiV1MarineForecastHourlyLocationResponse = z.object({
     forecast: z.array(z.object({
-        peak1DSpectraPeriod: z.number().optional(),
-        seaTemp: z.number().optional(),
-        sigSwellHeight: z.number().optional(),
-        sigWaveHeight: z.number().optional(),
-        swellDir: z.number().optional(),
-        swellPeriod: z.number().optional(),
-        swimTemp: z.number().optional(),
-        time: z.string().optional(),
-        waveDir: z.number().optional(),
-        wavePeriod: z.number().optional(),
-        windWaveDir: z.number().optional(),
-        windWavePeriod: z.number().optional(),
-        windWaveSigHeight: z.number().optional()
+        peak1DSpectraPeriod: z.number().nullish(),
+        seaTemp: z.number().nullish(),
+        sigSwellHeight: z.number().nullish(),
+        sigWaveHeight: z.number().nullish(),
+        swellDir: z.number().nullish(),
+        swellPeriod: z.number().nullish(),
+        swimTemp: z.number().nullish(),
+        time: z.string().nullish(),
+        waveDir: z.number().nullish(),
+        wavePeriod: z.number().nullish(),
+        windWaveDir: z.number().nullish(),
+        windWavePeriod: z.number().nullish(),
+        windWaveSigHeight: z.number().nullish()
     })).optional()
 });
 
@@ -845,16 +845,16 @@ export const zGetApiV1MarineForecastDailyLocationQuery = z.object({
  */
 export const zGetApiV1MarineForecastDailyLocationResponse = z.object({
     forecast: z.array(z.object({
-        date: z.string().optional(),
-        maxPeak1DSpectraPeriod: z.number().optional(),
-        maxSeaTemp: z.number().optional(),
-        maxSigWaveHeight: z.number().optional(),
-        maxSwellHeight: z.number().optional(),
-        maxSwellPeriod: z.number().optional(),
-        maxSwimTemp: z.number().optional(),
-        maxWavePeriod: z.number().optional(),
-        maxWindWavePeriod: z.number().optional(),
-        maxWindWaveSigHeight: z.number().optional()
+        date: z.string().nullish(),
+        maxPeak1DSpectraPeriod: z.number().nullish(),
+        maxSeaTemp: z.number().nullish(),
+        maxSigWaveHeight: z.number().nullish(),
+        maxSwellHeight: z.number().nullish(),
+        maxSwellPeriod: z.number().nullish(),
+        maxSwimTemp: z.number().nullish(),
+        maxWavePeriod: z.number().nullish(),
+        maxWindWavePeriod: z.number().nullish(),
+        maxWindWaveSigHeight: z.number().nullish()
     })).optional()
 });
 
@@ -872,41 +872,41 @@ export const zGetApiV1SkiCurrentLocationQuery = z.object({
  */
 export const zGetApiV1SkiCurrentLocationResponse = z.object({
     locations: z.array(z.object({
-        name: z.string().optional(),
-        countryCode: z.string().optional(),
-        countryName: z.string().optional(),
-        state: z.string().optional(),
-        city: z.string().optional(),
-        postalCode: z.string().optional(),
-        street: z.string().optional(),
+        name: z.string().nullish(),
+        countryCode: z.string().nullish(),
+        countryName: z.string().nullish(),
+        state: z.string().nullish(),
+        city: z.string().nullish(),
+        postalCode: z.string().nullish(),
+        street: z.string().nullish(),
         houseNumber: z.string().nullish(),
-        address: z.string().optional(),
-        longitude: z.number().optional(),
-        latitude: z.number().optional(),
-        openFrom: z.string().optional(),
-        openUntil: z.string().optional(),
-        isOpen: z.boolean().optional(),
-        altitudeBase: z.number().optional(),
-        altitudePeak: z.number().optional(),
-        primarySurfaceCondition: z.string().optional(),
-        liftsOpen: z.number().optional(),
-        lifts: z.number().optional(),
-        hasSkiing: z.boolean().optional(),
+        address: z.string().nullish(),
+        longitude: z.number().nullish(),
+        latitude: z.number().nullish(),
+        openFrom: z.string().nullish(),
+        openUntil: z.string().nullish(),
+        isOpen: z.boolean().nullish(),
+        altitudeBase: z.number().nullish(),
+        altitudePeak: z.number().nullish(),
+        primarySurfaceCondition: z.string().nullish(),
+        liftsOpen: z.number().nullish(),
+        lifts: z.number().nullish(),
+        hasSkiing: z.boolean().nullish(),
         kmNordic: z.number().nullish(),
-        kmPistes: z.number().optional(),
-        kmOpen: z.number().optional(),
-        hasValleyRun: z.boolean().optional(),
-        valleyRunOpen: z.string().optional(),
-        hasTobogganRuns: z.boolean().optional(),
+        kmPistes: z.number().nullish(),
+        kmOpen: z.number().nullish(),
+        hasValleyRun: z.boolean().nullish(),
+        valleyRunOpen: z.string().nullish(),
+        hasTobogganRuns: z.boolean().nullish(),
         kmTobogganRuns: z.number().nullish(),
-        lastSnowDate: z.string().optional(),
+        lastSnowDate: z.string().nullish(),
         lastSnowAmount: z.string().nullish(),
-        nightSkiing: z.boolean().optional(),
-        snowDepthPeak: z.number().optional(),
-        snowDepthBase: z.number().optional(),
-        hasFunPark: z.boolean().optional(),
-        funParkOpen: z.boolean().optional(),
-        updated: z.string().optional()
+        nightSkiing: z.boolean().nullish(),
+        snowDepthPeak: z.number().nullish(),
+        snowDepthBase: z.number().nullish(),
+        hasFunPark: z.boolean().nullish(),
+        funParkOpen: z.boolean().nullish(),
+        updated: z.string().nullish()
     })).optional()
 });
 
@@ -924,10 +924,10 @@ export const zGetApiV1AgricultureForecastHourlyLocationQuery = z.object({
  */
 export const zGetApiV1AgricultureForecastHourlyLocationResponse = z.object({
     forecast: z.array(z.object({
-        time: z.string().optional(),
-        ET0: z.number().optional(),
-        VPD: z.number().optional(),
-        SSRD: z.number().optional()
+        time: z.string().nullish(),
+        ET0: z.number().nullish(),
+        VPD: z.number().nullish(),
+        SSRD: z.number().nullish()
     })).optional()
 });
 
@@ -944,16 +944,16 @@ export const zGetApiV1AgricultureForecastDailyLocationQuery = z.object({
  */
 export const zGetApiV1AgricultureForecastDailyLocationResponse = z.object({
     forecast: z.array(z.object({
-        date: z.string().optional(),
-        ET0: z.number().optional(),
-        VPD_max: z.number().optional(),
-        VPD_min: z.number().optional(),
-        VPD: z.number().optional(),
-        SSRD: z.number().optional(),
-        precipSum24q10: z.number().optional(),
-        precipSum24q90: z.number().optional(),
-        precipSum168q10: z.number().optional(),
-        precipSum168q90: z.number().optional()
+        date: z.string().nullish(),
+        ET0: z.number().nullish(),
+        VPD_max: z.number().nullish(),
+        VPD_min: z.number().nullish(),
+        VPD: z.number().nullish(),
+        SSRD: z.number().nullish(),
+        precipSum24q10: z.number().nullish(),
+        precipSum24q90: z.number().nullish(),
+        precipSum168q10: z.number().nullish(),
+        precipSum168q90: z.number().nullish()
     })).optional()
 });
 
@@ -972,16 +972,16 @@ export const zGetApiV1EnergyForecast15MinutelyLocationQuery = z.object({
  */
 export const zGetApiV1EnergyForecast15MinutelyLocationResponse = z.object({
     forecast: z.array(z.object({
-        dewPoint: z.number().optional(),
-        relHumidity: z.number().optional(),
-        temperature: z.number().optional(),
-        time: z.string().optional(),
-        windd_h100: z.number().optional(),
-        windd_h150: z.number().optional(),
-        windd_h200: z.number().optional(),
-        winds_h100: z.number().optional(),
-        winds_h150: z.number().optional(),
-        winds_h200: z.number().optional()
+        dewPoint: z.number().nullish(),
+        relHumidity: z.number().nullish(),
+        temperature: z.number().nullish(),
+        time: z.string().nullish(),
+        windd_h100: z.number().nullish(),
+        windd_h150: z.number().nullish(),
+        windd_h200: z.number().nullish(),
+        winds_h100: z.number().nullish(),
+        winds_h150: z.number().nullish(),
+        winds_h200: z.number().nullish()
     })).optional()
 });
 
@@ -1000,17 +1000,17 @@ export const zGetApiV1EnergyForecastHourlyLocationQuery = z.object({
  */
 export const zGetApiV1EnergyForecastHourlyLocationResponse = z.object({
     forecast: z.array(z.object({
-        dewPoint: z.number().optional(),
-        relHumidity: z.number().optional(),
-        ssrd: z.number().optional(),
-        temperature: z.number().optional(),
-        time: z.string().optional(),
-        windd_h100: z.number().optional(),
-        windd_h150: z.number().optional(),
-        windd_h200: z.number().optional(),
-        winds_h100: z.number().optional(),
-        winds_h150: z.number().optional(),
-        winds_h200: z.number().optional()
+        dewPoint: z.number().nullish(),
+        relHumidity: z.number().nullish(),
+        ssrd: z.number().nullish(),
+        temperature: z.number().nullish(),
+        time: z.string().nullish(),
+        windd_h100: z.number().nullish(),
+        windd_h150: z.number().nullish(),
+        windd_h200: z.number().nullish(),
+        winds_h100: z.number().nullish(),
+        winds_h150: z.number().nullish(),
+        winds_h200: z.number().nullish()
     })).optional()
 });
 
@@ -1024,54 +1024,54 @@ export const zGetApiV1HurricaneCurrentQuery = z.object({
  */
 export const zGetApiV1HurricaneCurrentResponse = z.object({
     metadata: z.object({
-        count: z.number().optional(),
+        count: z.number().nullish(),
         areas_available: z.array(z.string()).optional(),
-        type: z.string().optional()
+        type: z.string().nullish()
     }).optional(),
     data: z.array(z.object({
-        type: z.string().optional(),
+        type: z.string().nullish(),
         features: z.array(z.object({
             properties: z.object({
-                name: z.string().optional(),
-                nameLocal: z.string().optional(),
-                id: z.string().optional(),
-                shortLabel: z.string().optional(),
-                attr: z.string().optional(),
-                label: z.string().optional(),
-                date: z.string().optional(),
-                timeLabel: z.string().optional(),
-                timeISO8601: z.string().optional(),
-                issued: z.string().optional(),
-                dataType: z.string().optional(),
-                advisory: z.number().optional(),
-                stormType: z.string().optional(),
-                title: z.string().optional(),
-                category: z.string().optional(),
-                direction: z.string().optional(),
-                directionDEG: z.number().optional(),
-                pressure: z.number().optional(),
-                pressureIN: z.number().optional(),
-                maxWind: z.number().optional(),
-                maxWindKTS: z.number().optional(),
-                maxWindKPH: z.number().optional(),
-                maxWindMS: z.number().optional(),
-                maxGust: z.number().optional(),
-                maxGustKTS: z.number().optional(),
-                maxGustKPH: z.number().optional(),
-                maxGustMS: z.number().optional(),
-                propagationSpeed: z.number().optional(),
-                propagationSpeedKTS: z.number().optional(),
-                propagationSpeedKPH: z.number().optional(),
-                propagationSpeedMS: z.number().optional(),
+                name: z.string().nullish(),
+                nameLocal: z.string().nullish(),
+                id: z.string().nullish(),
+                shortLabel: z.string().nullish(),
+                attr: z.string().nullish(),
+                label: z.string().nullish(),
+                date: z.string().nullish(),
+                timeLabel: z.string().nullish(),
+                timeISO8601: z.string().nullish(),
+                issued: z.string().nullish(),
+                dataType: z.string().nullish(),
+                advisory: z.number().nullish(),
+                stormType: z.string().nullish(),
+                title: z.string().nullish(),
+                category: z.string().nullish(),
+                direction: z.string().nullish(),
+                directionDEG: z.number().nullish(),
+                pressure: z.number().nullish(),
+                pressureIN: z.number().nullish(),
+                maxWind: z.number().nullish(),
+                maxWindKTS: z.number().nullish(),
+                maxWindKPH: z.number().nullish(),
+                maxWindMS: z.number().nullish(),
+                maxGust: z.number().nullish(),
+                maxGustKTS: z.number().nullish(),
+                maxGustKPH: z.number().nullish(),
+                maxGustMS: z.number().nullish(),
+                propagationSpeed: z.number().nullish(),
+                propagationSpeedKTS: z.number().nullish(),
+                propagationSpeedKPH: z.number().nullish(),
+                propagationSpeedMS: z.number().nullish(),
                 probabilityRadius: z.string().nullish(),
-                source: z.string().optional(),
-                lastCategory: z.string().optional(),
-                maxCategory: z.string().optional(),
-                numberLocal: z.number().optional()
+                source: z.string().nullish(),
+                lastCategory: z.string().nullish(),
+                maxCategory: z.string().nullish(),
+                numberLocal: z.number().nullish()
             }).optional(),
-            type: z.string().optional(),
+            type: z.string().nullish(),
             geometry: z.object({
-                type: z.string().optional(),
+                type: z.string().nullish(),
                 coordinates: z.array(z.number()).optional()
             }).optional()
         })).optional()
@@ -1089,44 +1089,44 @@ export const zGetApiV1HurricaneHistoryQuery = z.object({
  */
 export const zGetApiV1HurricaneHistoryResponse = z.object({
     metadata: z.object({
-        count: z.number().optional(),
+        count: z.number().nullish(),
         areas_available: z.array(z.string()).optional(),
-        type: z.string().optional(),
-        limit_applied: z.number().optional()
+        type: z.string().nullish(),
+        limit_applied: z.number().nullish()
     }).optional(),
     data: z.array(z.object({
-        type: z.string().optional(),
+        type: z.string().nullish(),
         features: z.array(z.object({
             geometry: z.object({
                 coordinates: z.array(z.number()).optional(),
-                type: z.string().optional()
+                type: z.string().nullish()
             }).optional(),
-            type: z.string().optional(),
+            type: z.string().nullish(),
             properties: z.object({
-                pressure: z.number().optional(),
-                stormType: z.string().optional(),
-                dataType: z.string().optional(),
-                date: z.string().optional(),
-                shortLabel: z.string().optional(),
-                propagationSpeed: z.number().optional(),
-                maxGustMS: z.number().optional(),
-                direction: z.string().optional(),
-                numberLocal: z.number().optional(),
-                category: z.number().optional(),
-                id: z.string().optional(),
-                name: z.string().optional(),
+                pressure: z.number().nullish(),
+                stormType: z.string().nullish(),
+                dataType: z.string().nullish(),
+                date: z.string().nullish(),
+                shortLabel: z.string().nullish(),
+                propagationSpeed: z.number().nullish(),
+                maxGustMS: z.number().nullish(),
+                direction: z.string().nullish(),
+                numberLocal: z.number().nullish(),
+                category: z.number().nullish(),
+                id: z.string().nullish(),
+                name: z.string().nullish(),
                 probabilityRadius: z.string().nullish(),
-                timeISO8601: z.string().optional(),
-                maxWindMS: z.number().optional(),
-                issued: z.string().optional(),
-                propagationSpeedMS: z.number().optional(),
-                maxWind: z.number().optional(),
-                timeLabel: z.string().optional(),
-                label: z.string().optional(),
-                title: z.string().optional(),
-                maxGust: z.number().optional(),
-                nameLocal: z.string().optional(),
-                advisory: z.number().optional()
+                timeISO8601: z.string().nullish(),
+                maxWindMS: z.number().nullish(),
+                issued: z.string().nullish(),
+                propagationSpeedMS: z.number().nullish(),
+                maxWind: z.number().nullish(),
+                timeLabel: z.string().nullish(),
+                label: z.string().nullish(),
+                title: z.string().nullish(),
+                maxGust: z.number().nullish(),
+                nameLocal: z.string().nullish(),
+                advisory: z.number().nullish()
             }).optional()
         })).optional()
     })).optional()
@@ -1146,12 +1146,12 @@ export const zGetApiV1LightningLocationQuery = z.object({
  */
 export const zGetApiV1LightningLocationResponse = z.object({
     strikes: z.array(z.object({
-        lat: z.number().optional(),
-        lon: z.number().optional(),
-        time: z.string().optional(),
-        distance: z.number().optional(),
-        bearing: z.string().optional(),
-        source: z.string().optional()
+        lat: z.number().nullish(),
+        lon: z.number().nullish(),
+        time: z.string().nullish(),
+        distance: z.number().nullish(),
+        bearing: z.string().nullish(),
+        source: z.string().nullish()
     })).optional()
 });
 
@@ -1168,14 +1168,14 @@ export const zGetApiV1LightningBboxBboxQuery = z.object({
  * Success
  */
 export const zGetApiV1LightningBboxBboxResponse = z.object({
-    frame: z.string().optional(),
-    prev: z.string().optional(),
+    frame: z.string().nullish(),
+    prev: z.string().nullish(),
     next: z.string().nullish(),
     strikes: z.array(z.object({
-        lat: z.number().optional(),
-        lon: z.number().optional(),
-        time: z.string().optional(),
-        source: z.string().optional()
+        lat: z.number().nullish(),
+        lon: z.number().nullish(),
+        time: z.string().nullish(),
+        source: z.string().nullish()
     })).optional()
 });
 
@@ -1184,9 +1184,9 @@ export const zGetApiV1LightningBboxBboxResponse = z.object({
  */
 export const zPostAuthorizeKeyResponse = z.object({
     tokens: z.array(z.object({
-        access_token: z.string().optional(),
-        key: z.string().optional(),
-        label: z.string().optional(),
+        access_token: z.string().nullish(),
+        key: z.string().nullish(),
+        label: z.string().nullish(),
         expires_at: z.string().nullish()
     })).optional()
 });
@@ -1208,20 +1208,20 @@ export const zGetUsageMonthMonthQuery = z.object({
  */
 export const zGetUsageMonthMonthResponse = z.object({
     apis: z.array(z.object({
-        name: z.string().optional(),
-        hits: z.number().optional()
+        name: z.string().nullish(),
+        hits: z.number().nullish()
     })).optional(),
-    hits: z.number().optional(),
+    hits: z.number().nullish(),
     daily: z.array(z.object({
-        date: z.string().optional(),
+        date: z.string().nullish(),
         apis: z.array(z.object({
-            name: z.string().optional(),
-            hits: z.number().optional()
+            name: z.string().nullish(),
+            hits: z.number().nullish()
         })).optional()
     })).optional(),
     breakdown: z.array(z.object({
-        endpoint: z.string().optional(),
-        hits: z.number().optional()
+        endpoint: z.string().nullish(),
+        hits: z.number().nullish()
     })).optional()
 });
 
@@ -1238,12 +1238,12 @@ export const zGetUsageDayDayQuery = z.object({
  */
 export const zGetUsageDayDayResponse = z.object({
     apis: z.array(z.object({
-        name: z.string().optional(),
-        hits: z.number().optional()
+        name: z.string().nullish(),
+        hits: z.number().nullish()
     })).optional(),
-    hits: z.number().optional(),
+    hits: z.number().nullish(),
     breakdown: z.array(z.object({
-        endpoint: z.string().optional(),
-        hits: z.number().optional()
+        endpoint: z.string().nullish(),
+        hits: z.number().nullish()
     })).optional()
 });

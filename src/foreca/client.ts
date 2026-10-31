@@ -222,42 +222,50 @@ export interface ForecastStep {
   readonly cloudiness: number | undefined;
 }
 
+/**
+ * Приводит метаданные локации к доменному виду.
+ *
+ * Поля приходят как `T | null | undefined`: спека Foreca не размечена
+ * `required` и `nullable`, а API возвращает `null` в необязательных полях.
+ * Наружу отдаём только `T | undefined`, чтобы остальной код не проверял null.
+ */
 function toLocationInfo(raw: {
-  id?: number | undefined;
-  name?: string | undefined;
-  country?: string | undefined;
-  timezone?: string | undefined;
-  adminArea?: string | undefined;
-  lon?: number | undefined;
-  lat?: number | undefined;
+  id?: number | null | undefined;
+  name?: string | null | undefined;
+  country?: string | null | undefined;
+  timezone?: string | null | undefined;
+  adminArea?: string | null | undefined;
+  lon?: number | null | undefined;
+  lat?: number | null | undefined;
 }): LocationInfo {
   return {
-    id: raw.id,
+    id: raw.id ?? undefined,
     name: raw.name ?? '',
-    country: raw.country,
-    timezone: raw.timezone,
-    adminArea: raw.adminArea,
-    lon: raw.lon,
-    lat: raw.lat,
+    country: raw.country ?? undefined,
+    timezone: raw.timezone ?? undefined,
+    adminArea: raw.adminArea ?? undefined,
+    lon: raw.lon ?? undefined,
+    lat: raw.lat ?? undefined,
   };
 }
 
+/** Шаг прогноза: `null` из API превращается в `undefined`, как и у локации. */
 function toForecastStep(raw: {
-  time?: string | undefined;
-  symbol?: string | undefined;
-  temperature?: number | undefined;
-  precipAccum?: number | undefined;
-  windDir?: number | undefined;
-  windSpeed?: number | undefined;
-  cloudiness?: number | undefined;
+  time?: string | null | undefined;
+  symbol?: string | null | undefined;
+  temperature?: number | null | undefined;
+  precipAccum?: number | null | undefined;
+  windDir?: number | null | undefined;
+  windSpeed?: number | null | undefined;
+  cloudiness?: number | null | undefined;
 }): ForecastStep {
   return {
-    time: raw.time,
-    symbol: raw.symbol,
-    temperature: raw.temperature,
-    precipAccum: raw.precipAccum,
-    windDir: raw.windDir,
-    windSpeed: raw.windSpeed,
-    cloudiness: raw.cloudiness,
+    time: raw.time ?? undefined,
+    symbol: raw.symbol ?? undefined,
+    temperature: raw.temperature ?? undefined,
+    precipAccum: raw.precipAccum ?? undefined,
+    windDir: raw.windDir ?? undefined,
+    windSpeed: raw.windSpeed ?? undefined,
+    cloudiness: raw.cloudiness ?? undefined,
   };
 }

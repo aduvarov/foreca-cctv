@@ -38,31 +38,31 @@ export type GetApiV1LocationSearchQueryResponses = {
             /**
              * Identifier to be used with weather queries
              */
-            id?: number;
+            id?: number | null;
             /**
              * Location name e.g. London
              */
-            name?: string;
+            name?: string | null;
             /**
              * Location country name e.g. United Kingdom
              */
-            country?: string;
+            country?: string | null;
             /**
              * Location timezone e.g. Europe/London
              */
-            timezone?: string;
+            timezone?: string | null;
             /**
              * Language of location name result
              */
-            language?: string;
+            language?: string | null;
             /**
              * Administrative region name (high level, e.g. state)
              */
-            adminArea?: string;
+            adminArea?: string | null;
             /**
              * Administrative region name (medium level, e.g. county)
              */
-            adminArea2?: string;
+            adminArea2?: string | null;
             /**
              * Administrative region name (low level, e.g. municipality)
              */
@@ -70,11 +70,11 @@ export type GetApiV1LocationSearchQueryResponses = {
             /**
              * Location longitude
              */
-            lon?: number;
+            lon?: number | null;
             /**
              * Location latitude
              */
-            lat?: number;
+            lat?: number | null;
         }>;
     };
 };
@@ -106,24 +106,24 @@ export type GetApiV1LocationLocationResponses = {
         /**
          * Identifier to be used with weather queries
          */
-        id?: number;
+        id?: number | null;
         /**
          * Location name e.g. London
          */
-        name?: string;
+        name?: string | null;
         /**
          * Location country name e.g. United Kingdom
          */
-        country?: string;
-        timezone?: string;
+        country?: string | null;
+        timezone?: string | null;
         /**
          * Language of location name result
          */
-        language?: string;
+        language?: string | null;
         /**
          * Administrative region name (high level, e.g. state)
          */
-        adminArea?: string;
+        adminArea?: string | null;
         /**
          * Administrative region name (medium level, e.g. county)
          */
@@ -135,11 +135,11 @@ export type GetApiV1LocationLocationResponses = {
         /**
          * Location longitude
          */
-        lon?: number;
+        lon?: number | null;
         /**
          * Location latitude
          */
-        lat?: number;
+        lat?: number | null;
     };
 };
 
@@ -194,23 +194,23 @@ export type GetApiV1ObservationLatestLocationResponses = {
             /**
              * Distance from the location to the station e.g. 13 km E
              */
-            distance?: string;
+            distance?: string | null;
             /**
              * Elevation (m) of the station above sea level
              */
-            elevation?: number;
+            elevation?: number | null;
             /**
              * Feels like temperature (°C or requested unit)
              */
-            feelsLikeTemp?: number;
+            feelsLikeTemp?: number | null;
             /**
              * Latitude of the station
              */
-            latitude?: number;
+            latitude?: number | null;
             /**
              * Longitude of the station
              */
-            longitude?: number;
+            longitude?: number | null;
             /**
              * The set of latest available precipitation accumulations, included only with request parameter prec=1. Empty when no values are available.
              */
@@ -218,15 +218,15 @@ export type GetApiV1ObservationLatestLocationResponses = {
                 /**
                  * Precipitation in millimetres, during `period` (prec=1), or the past hour (prec=2), ending at `endtime`
                  */
-                accum?: number;
+                accum?: number | null;
                 /**
                  * The precipitation accumulation period end time, formatted like `time`
                  */
-                endtime?: string;
+                endtime?: string | null;
                 /**
                  * Duration of this precipitation accumulation, when prec=1. One of `1h`, `3h`, `6h`, `12h` or `24h`.
                  */
-                period?: string;
+                period?: string | null;
             }>;
             /**
              * The series of one-hour precipitation accumulations during the past day (24 hours), included only with request parameter prec=2. Empty when no such values are available.
@@ -235,64 +235,64 @@ export type GetApiV1ObservationLatestLocationResponses = {
                 /**
                  * Precipitation in millimetres, during `period` (prec=1), or the past hour (prec=2), ending at `endtime`
                  */
-                accum?: number;
+                accum?: number | null;
                 /**
                  * The precipitation accumulation period end time, formatted like `time`
                  */
-                endtime?: string;
+                endtime?: string | null;
                 /**
                  * The precipitation type, when prec=2. One of `rain`, `sleet`, `snow`, `hail`, `icing` or `undefined`. Obtained from the weather station when available. If not, calculated using observed values. May have a value other than undefined, even if accum is zero.
                  */
-                prectype?: string;
+                prectype?: string | null;
             }>;
             /**
              * Atmospheric pressure normalized to sea level (hPa)
              */
-            pressure?: number;
+            pressure?: number | null;
             /**
              * Relative humidity (%)
              */
-            relHumidity?: number;
+            relHumidity?: number | null;
             /**
              * Snow depth in centimetres (cm)
              */
-            snowDepth?: number;
+            snowDepth?: number | null;
             /**
              * Name of the observation station
              */
-            station?: string;
+            station?: string | null;
             /**
              * Weather symbol code
              */
-            symbol?: string;
+            symbol?: string | null;
             /**
              * Temperature (°C or requested unit)
              */
-            temperature?: number;
+            temperature?: number | null;
             /**
              * ISO 8601 date and time for the observed parameters, formatted according to request parameter tz
              */
-            time?: string;
+            time?: string | null;
             /**
              * Visibility in meters, e.g. `10000` for 10 km
              */
-            visibility?: number;
+            visibility?: number | null;
             /**
              * Wind direction in degrees
              */
-            windDir?: number;
+            windDir?: number | null;
             /**
              * Wind direction (N, NE, E, SE, S, SW, W, NW)
              */
-            windDirString?: string;
+            windDirString?: string | null;
             /**
              * Wind gust speed (m/s or requested unit)
              */
-            windGust?: number;
+            windGust?: number | null;
             /**
              * Wind speed (m/s or requested unit)
              */
-            windSpeed?: number;
+            windSpeed?: number | null;
         }>;
     };
 };
@@ -345,72 +345,72 @@ export type GetApiV1CurrentLocationResponses = {
             /**
              * ISO 8601 date and time
              */
-            time?: string;
+            time?: string | null;
             /**
              * Weather symbol code
              */
-            symbol?: string;
+            symbol?: string | null;
             /**
              * Description of weather symbol
              */
-            symbolPhrase?: string;
+            symbolPhrase?: string | null;
             /**
              * Temperature (°C or requested unit)
              */
-            temperature?: number;
+            temperature?: number | null;
             /**
              * Feels like temperature (°C or requested unit)
              */
-            feelsLikeTemp?: number;
+            feelsLikeTemp?: number | null;
             /**
              * Relative humidity (%)
              */
-            relHumidity?: number;
+            relHumidity?: number | null;
             /**
              * Dew point (°C or requested unit)
              */
-            dewPoint?: number;
+            dewPoint?: number | null;
             /**
              * Wind speed (m/s or requested unit)
              */
-            windSpeed?: number;
-            windDir?: number;
+            windSpeed?: number | null;
+            windDir?: number | null;
             /**
              * Wind direction (N, NE, E, SE, S, SW, W, NW)
              */
-            windDirString?: string;
+            windDirString?: string | null;
             /**
              * Wind gust (m/s or requested unit)
              */
-            windGust?: number;
+            windGust?: number | null;
             /**
              * Probability of precipitation (%)
              */
-            precipProb?: number;
+            precipProb?: number | null;
             /**
              * Intensity of precipitation rate (mm/h)
              */
-            precipRate?: number;
+            precipRate?: number | null;
             /**
              * Cloudiness (%)
              */
-            cloudiness?: number;
+            cloudiness?: number | null;
             /**
              * Probability of thunder nearby (%)
              */
-            thunderProb?: number;
+            thunderProb?: number | null;
             /**
              * UV index
              */
-            uvIndex?: number;
+            uvIndex?: number | null;
             /**
              * Atmospheric pressure normalized to sea level (hPa)
              */
-            pressure?: number;
+            pressure?: number | null;
             /**
              * Visibility (m)
              */
-            visibility?: number;
+            visibility?: number | null;
         };
     };
 };
@@ -447,16 +447,16 @@ export type GetApiV1ForecastMinutelyLocationResponses = {
             /**
              * ISO 8601 date and time
              */
-            time?: string;
+            time?: string | null;
             /**
              * Intensity of precipitation rate (mm/h)
              */
-            precipRate?: number;
+            precipRate?: number | null;
         }>;
         /**
          * Time resolution of the precipitation rate, in minutes (1 for areas covered by radar, 60 elsewhere).
          */
-        resolution?: number;
+        resolution?: number | null;
     };
 };
 
@@ -516,83 +516,83 @@ export type GetApiV1Forecast15MinutelyLocationResponses = {
             /**
              * ISO 8601 date and time
              */
-            time?: string;
+            time?: string | null;
             /**
              * Weather symbol code
              */
-            symbol?: string;
+            symbol?: string | null;
             /**
              * Weather description (dataset=full)
              */
-            symbolPhrase?: string;
+            symbolPhrase?: string | null;
             /**
              * Temperature (°C)
              */
-            temperature?: number;
+            temperature?: number | null;
             /**
              * Feels like temperature (°C)
              */
-            feelsLikeTemp?: number;
+            feelsLikeTemp?: number | null;
             /**
              * Relative humidity (%) (dataset=full)
              */
-            relHumidity?: number;
+            relHumidity?: number | null;
             /**
              * Dew point (°C or requested unit) (dataset=full)
              */
-            dewPoint?: number;
+            dewPoint?: number | null;
             /**
              * Wind direction in degrees
              */
-            windDir?: number;
+            windDir?: number | null;
             /**
              * Wind speed (m/s or requested unit)
              */
-            windSpeed?: number;
+            windSpeed?: number | null;
             /**
              * Wind gust speed (m/s or requested unit)
              */
-            windGust?: number;
+            windGust?: number | null;
             /**
              * Wind direction (N, NE, E, SE, S, SW, W, NW)
              */
-            windDirString?: string;
+            windDirString?: string | null;
             /**
              * Probability of precipitation (%)
              */
-            precipProb?: number;
+            precipProb?: number | null;
             /**
              * Intensity of snow rate (cm/h, taking density into account) (dataset=full)
              */
-            snowRate?: number;
+            snowRate?: number | null;
             /**
              * Intensity of precipitation rate (mm/h)
              */
-            precipRate?: number;
+            precipRate?: number | null;
             /**
              * Cloudiness (%) (dataset=full)
              */
-            cloudiness?: number;
+            cloudiness?: number | null;
             /**
              * Thunder probability (%) (dataset=full)
              */
-            thunderProb?: number;
+            thunderProb?: number | null;
             /**
              * Ultraviolet index (dataset=full)
              */
-            uvIndex?: number;
+            uvIndex?: number | null;
             /**
              * Atmospheric pressure extrapolated to sea level (hPa) (dataset=full)
              */
-            pressure?: number;
+            pressure?: number | null;
             /**
              * Visibility (m) (dataset=full)
              */
-            visibility?: number;
+            visibility?: number | null;
             /**
              * Precipitation type (always one of: rain, mixed, snow) (dataset=full)
              */
-            precipType?: string;
+            precipType?: string | null;
         }>;
     };
 };
@@ -657,91 +657,91 @@ export type GetApiV1ForecastHourlyLocationResponses = {
             /**
              * ISO 8601 date and time
              */
-            time?: string;
+            time?: string | null;
             /**
              * Weather symbol code
              */
-            symbol?: string;
+            symbol?: string | null;
             /**
              * Description of weather (dataset=full)
              */
-            symbolPhrase?: string;
+            symbolPhrase?: string | null;
             /**
              * Temperature (°C or requested unit)
              */
-            temperature?: number;
+            temperature?: number | null;
             /**
              * Feels like temperature (°C or requested unit)
              */
-            feelsLikeTemp?: number;
+            feelsLikeTemp?: number | null;
             /**
              * Wind speed (m/s or requested unit)
              */
-            windSpeed?: number;
+            windSpeed?: number | null;
             /**
              * Wind gust speed (m/s or requested unit)
              */
-            windGust?: number;
+            windGust?: number | null;
             /**
              * Relative humidity (%) (dataset=full)
              */
-            relHumidity?: number;
+            relHumidity?: number | null;
             /**
              * Dew point (°C or requested unit) (dataset=full)
              */
-            dewPoint?: number;
+            dewPoint?: number | null;
             /**
              * Wind direction in degrees
              */
-            windDir?: number;
+            windDir?: number | null;
             /**
              * Wind direction (N, NE, E, SE, S, SW, W, NW)
              */
-            windDirString?: string;
+            windDirString?: string | null;
             /**
              * Probability of precipitation in the 1 hour period ending at the timestamp (%)
              */
-            precipProb?: number;
+            precipProb?: number | null;
             /**
              * Accumulated 1 hour precipitation up until the timestamp (as liquid water, mm).
              */
-            precipAccum?: number;
+            precipAccum?: number | null;
             /**
              * Thickness of snow accumulated over 1 hour ending at the timestamp (cm) (dataset=full)
              */
-            snowAccum?: number;
+            snowAccum?: number | null;
             /**
              * Cloudiness (%) (dataset=full)
              */
-            cloudiness?: number;
+            cloudiness?: number | null;
             /**
              * Thunder probability (%) (dataset=full)
              */
-            thunderProb?: number;
+            thunderProb?: number | null;
             /**
              * Ultraviolet index (dataset=full)
              */
-            uvIndex?: number;
+            uvIndex?: number | null;
             /**
              * Pressure (hPa) (dataset=full)
              */
-            pressure?: number;
+            pressure?: number | null;
             /**
              * Visibility (m) (dataset=full)
              */
-            visibility?: number;
+            visibility?: number | null;
             /**
              * Precipitation type (always one of: rain, mixed, snow) (dataset=full)
              */
-            precipType?: string;
+            precipType?: string | null;
             /**
              * Ground level solar radiation intensity on a level surface, W/m² (dataset=full)
              */
-            solarRadiation?: number;
+            solarRadiation?: number | null;
             /**
              * Snow depth on the ground (cm) (dataset=full)
              */
-            snowDepth?: number;
+            snowDepth?: number | null;
         }>;
     };
 };
@@ -806,87 +806,87 @@ export type GetApiV1Forecast3HourlyLocationResponses = {
             /**
              * ISO 8601 date and time
              */
-            time?: string;
+            time?: string | null;
             /**
              * Weather symbol code
              */
-            symbol?: string;
+            symbol?: string | null;
             /**
              * Description of weather (dataset=full)
              */
-            symbolPhrase?: string;
+            symbolPhrase?: string | null;
             /**
              * Temperature (°C or requested unit)
              */
-            temperature?: number;
+            temperature?: number | null;
             /**
              * Feels like temperature (°C or requested unit)
              */
-            feelsLikeTemp?: number;
+            feelsLikeTemp?: number | null;
             /**
              * Wind speed (m/s or requested unit)
              */
-            windSpeed?: number;
+            windSpeed?: number | null;
             /**
              * Wind gust speed (m/s or requested unit)
              */
-            windGust?: number;
+            windGust?: number | null;
             /**
              * Relative humidity (%) (dataset=full)
              */
-            relHumidity?: number;
+            relHumidity?: number | null;
             /**
              * Dew point (°C or requested unit) (dataset=full)
              */
-            dewPoint?: number;
+            dewPoint?: number | null;
             /**
              * Wind direction in degrees
              */
-            windDir?: number;
+            windDir?: number | null;
             /**
              * Wind direction (N, NE, E, SE, S, SW, W, NW)
              */
-            windDirString?: string;
+            windDirString?: string | null;
             /**
              * Probability of precipitation in the 3 hour period ending at the timestamp (%)
              */
-            precipProb?: number;
+            precipProb?: number | null;
             /**
              * Accumulated 3 hour precipitation up until the timestamp (as liquid water, mm).
              */
-            precipAccum?: number;
+            precipAccum?: number | null;
             /**
              * Thickness of snow accumulated over 3 hours ending at the timestamp (cm) (dataset=full)
              */
-            snowAccum?: number;
+            snowAccum?: number | null;
             /**
              * Cloudiness (%) (dataset=full)
              */
-            cloudiness?: number;
+            cloudiness?: number | null;
             /**
              * Thunder probability (%) (dataset=full)
              */
-            thunderProb?: number;
+            thunderProb?: number | null;
             /**
              * Ultraviolet index (dataset=full)
              */
-            uvIndex?: number;
+            uvIndex?: number | null;
             /**
              * Pressure (hPa) (dataset=full)
              */
-            pressure?: number;
+            pressure?: number | null;
             /**
              * Visibility (m) (dataset=full)
              */
-            visibility?: number;
+            visibility?: number | null;
             /**
              * Precipitation type (always one of: rain, mixed, snow) (dataset=full)
              */
-            precipType?: string;
+            precipType?: string | null;
             /**
              * Ground level solar radiation intensity on a level surface, W/m² (dataset=full)
              */
-            solarRadiation?: number;
+            solarRadiation?: number | null;
         }>;
     };
 };
@@ -947,161 +947,161 @@ export type GetApiV1ForecastDailyLocationResponses = {
             /**
              * ISO 8601 date
              */
-            date?: string;
+            date?: string | null;
             /**
              * Daytime cloudiness average (%) (dataset=full)
              */
-            cloudiness?: number;
+            cloudiness?: number | null;
             /**
              * Confidence in forecast: g (green, good), y (yellow, normal), o (orange, low) (dataset=full)
              */
-            confidence?: string;
+            confidence?: string | null;
             /**
              * maximum dew point (°C) (dataset=full)
              */
-            maxDewPoint?: number;
+            maxDewPoint?: number | null;
             /**
              * 24h maximum feels-like temperature (°C) (dataset=full)
              */
-            maxFeelsLikeTemp?: number;
+            maxFeelsLikeTemp?: number | null;
             /**
              * 24h maximum relative humidity (%) (dataset=full)
              */
-            maxRelHumidity?: number;
+            maxRelHumidity?: number | null;
             /**
              * 24h maximum temperature (°C) in a deterministic forecast
              */
-            maxTemp?: number;
+            maxTemp?: number | null;
             /**
              * A collection of values (°C) below which certain percentages (p000 for 0%, p025 for 25%,...) of 24h maximum temperatures of ensemble members of a probabilistic forecast are (dataset=full)
              */
             maxTempEnsemble?: {
-                p000?: number;
-                p025?: number;
-                p050?: number;
-                p075?: number;
-                p100?: number;
+                p000?: number | null;
+                p025?: number | null;
+                p050?: number | null;
+                p075?: number | null;
+                p100?: number | null;
             };
             /**
              * Maximum wind gust speed (m/s or requested unit) (dataset=full)
              */
-            maxWindGust?: number;
+            maxWindGust?: number | null;
             /**
              * Maximum wind speed (m/s or requested unit)
              */
-            maxWindSpeed?: number;
+            maxWindSpeed?: number | null;
             /**
              * minimum dew point (°C, dataset=full)
              */
-            minDewPoint?: number;
+            minDewPoint?: number | null;
             /**
              * 24h minimum feels-like temperature (°C) (dataset=full)
              */
-            minFeelsLikeTemp?: number;
+            minFeelsLikeTemp?: number | null;
             /**
              * 24h minimum relative humidity (%) (dataset=full)
              */
-            minRelHumidity?: number;
+            minRelHumidity?: number | null;
             /**
              * 24h minimum temperature (°C) in a deterministic forecast
              */
-            minTemp?: number;
+            minTemp?: number | null;
             /**
              * A collection of values (°C) below which certain percentages (p000 for 0%, p025 for 25%,...) of 24h minimum temperatures of ensemble members of a probabilistic forecast are (dataset=full)
              */
             minTempEnsemble?: {
-                p000?: number;
-                p025?: number;
-                p050?: number;
-                p075?: number;
-                p100?: number;
+                p000?: number | null;
+                p025?: number | null;
+                p050?: number | null;
+                p075?: number | null;
+                p100?: number | null;
             };
             /**
              * Minimum visibility (m) (dataset=full)
              */
-            minVisibility?: number;
+            minVisibility?: number | null;
             /**
              * Phase of moon at midday (degrees) (dataset=full)
              */
-            moonPhase?: number;
+            moonPhase?: number | null;
             /**
              * Moonrise time of day in local time (dataset=full)
              */
-            moonrise?: string;
+            moonrise?: string | null;
             /**
              * Moonset time of day in local time (dataset=full)
              */
-            moonset?: string;
+            moonset?: string | null;
             /**
              * Accumulated precipitation (as liquid water, mm) in a deterministic forecast
              */
-            precipAccum?: number;
+            precipAccum?: number | null;
             /**
              * A collection of values (mm) below which certain percentages (p010 for 10%, p025 for 25%,...) of 24h precipitation accumulations of ensemble members of a probabilistic forecast are (dataset=full)
              */
             precipAccumEnsemble?: {
-                p010?: number;
-                p025?: number;
-                p050?: number;
-                p075?: number;
-                p090?: number;
+                p010?: number | null;
+                p025?: number | null;
+                p050?: number | null;
+                p075?: number | null;
+                p090?: number | null;
             };
             /**
              * Precipitation probability during the day (%) (dataset=full)
              */
-            precipProb?: number;
+            precipProb?: number | null;
             /**
              * Daytime average sea level pressure (hPa) (dataset=full)
              */
-            pressure?: number;
+            pressure?: number | null;
             /**
              * Accumulated snow (thickness of precipitated snow, cm) (dataset=full)
              */
-            snowAccum?: number;
+            snowAccum?: number | null;
             /**
              * Thickness of snow on the ground (cm)
              */
-            snowDepth?: number;
+            snowDepth?: number | null;
             /**
              * Ground level solar radiation on a level surface, sum over the entire day (Wh/m²) (dataset=full)
              */
-            solarRadiationSum?: number;
+            solarRadiationSum?: number | null;
             /**
              * Sum of sunlight hours over the entire day (hours, dataset=full)
              */
-            sunhours?: number;
+            sunhours?: number | null;
             /**
              * Sunrise time of day in local time (dataset=full)
              */
-            sunrise?: string;
+            sunrise?: string | null;
             /**
              * Sunrise time in Unix time (dataset=full)
              */
-            sunriseEpoch?: number;
+            sunriseEpoch?: number | null;
             /**
              * Sunset time of day in local time (dataset=full)
              */
-            sunset?: string;
+            sunset?: string | null;
             /**
              * Sunset time in Unix time (dataset=full)
              */
-            sunsetEpoch?: number;
+            sunsetEpoch?: number | null;
             /**
              * Weather symbol code representing daytime conditions (7am to 6pm local time)
              */
-            symbol?: string;
+            symbol?: string | null;
             /**
              * Description of weather during the day (dataset=full)
              */
-            symbolPhrase?: string;
+            symbolPhrase?: string | null;
             /**
              * Maximum ultraviolet index (dataset=full)
              */
-            uvIndex?: number;
+            uvIndex?: number | null;
             /**
              * Wind direction at maximum wind speed (degrees)
              */
-            windDir?: number;
+            windDir?: number | null;
         }>;
     };
 };
@@ -1126,25 +1126,25 @@ export type GetApiV1CapabilitiesResponses = {
      */
     200: {
         images?: Array<{
-            id?: number;
+            id?: number | null;
             attribution?: string | null;
-            title?: string;
-            description?: string;
+            title?: string | null;
+            description?: string | null;
             formats?: Array<string>;
             colorschemes?: Array<string>;
             times?: {
-                updated?: string;
+                updated?: string | null;
                 available?: Array<string>;
-                current?: number;
+                current?: number | null;
             };
-            analysis?: string;
+            analysis?: string | null;
             extent?: {
-                minLat?: number;
-                maxLat?: number;
-                minLon?: number;
-                maxLon?: number;
-                minZoom?: number;
-                maxZoom?: number;
+                minLat?: number | null;
+                maxLat?: number | null;
+                minLon?: number | null;
+                maxLon?: number | null;
+                minZoom?: number | null;
+                maxZoom?: number | null;
             };
         }>;
     };
@@ -1250,19 +1250,19 @@ export type GetApiV1SymbolModeResponses = {
             /**
              * City name
              */
-            city?: string;
+            city?: string | null;
             /**
              * Location id
              */
-            id?: number;
+            id?: number | null;
             /**
              * Latitude (decimal degrees)
              */
-            lat?: string;
+            lat?: string | null;
             /**
              * Longitude (decimal degrees)
              */
-            lon?: string;
+            lon?: string | null;
             /**
              * Array of timestep objects (length depends on mode)
              */
@@ -1270,15 +1270,15 @@ export type GetApiV1SymbolModeResponses = {
                 /**
                  * Weather symbol code (see symbol codes in "Resources")
                  */
-                symbol?: string;
+                symbol?: string | null;
                 /**
                  * Air temperature (units according to units parameter)
                  */
-                temperature?: number;
+                temperature?: number | null;
                 /**
                  * UTC date and time (for current or hourly mode), or date (for daily mode) of the JSON tile, in ISO 8601 format
                  */
-                time?: string;
+                time?: string | null;
             }>;
         }>;
     };
@@ -1348,43 +1348,43 @@ export type GetApiV1AirQualityForecastHourlyLocationResponses = {
             /**
              * ISO 8601 date and time
              */
-            time?: string;
+            time?: string | null;
             /**
              * Most significant pollution type ("Carbon monoxide", "Nitrogen dioxide", "Ozone", "Particulate matter <10um", "Particulate matter <2.5um", "Sulphur dioxide")
              */
-            pollutant?: string;
+            pollutant?: string | null;
             /**
              * Description of most significant pollution type in given language (e.g. "Carbon monoxide", "Nitrogen dioxide", "Ozone", "Particulate matter <10 μm", "Particulate matter <2.5 μm" or "Sulphur dioxide")
              */
-            pollutantPhrase?: string;
+            pollutantPhrase?: string | null;
             /**
              * General AQI: lower is better
              */
-            AQI?: number;
+            AQI?: number | null;
             /**
              * AQI based on carbon monoxide
              */
-            AQI_CO?: number;
+            AQI_CO?: number | null;
             /**
              * AQI based on nitrogen dioxide
              */
-            AQI_NO2?: number;
+            AQI_NO2?: number | null;
             /**
              * AQI based on ozone
              */
-            AQI_O3?: number;
+            AQI_O3?: number | null;
             /**
              * AQI based on sulfur dioxide
              */
-            AQI_SO2?: number;
+            AQI_SO2?: number | null;
             /**
              * AQI based on particulate matter (PM10)
              */
-            AQI_PM10?: number;
+            AQI_PM10?: number | null;
             /**
              * AQI based on particulate matter (PM2.5)
              */
-            AQI_PM2P5?: number;
+            AQI_PM2P5?: number | null;
         }>;
     };
 };
@@ -1421,43 +1421,43 @@ export type GetApiV1AirQualityForecastDailyLocationResponses = {
             /**
              * ISO 8601 date
              */
-            date?: string;
+            date?: string | null;
             /**
              * General AQI: lower is better
              */
-            AQI?: number;
+            AQI?: number | null;
             /**
              * Most significant pollution type ("Carbon monoxide", "Nitrogen dioxide", "Ozone", "Particulate matter <10um", "Particulate matter <2.5um", "Sulphur dioxide")
              */
-            pollutant?: string;
+            pollutant?: string | null;
             /**
              * Description of most significant pollution type in given language (e.g. "Carbon monoxide", "Nitrogen dioxide", "Ozone", "Particulate matter <10 μm", "Particulate matter <2.5 μm" or "Sulphur dioxide")
              */
-            pollutantPhrase?: string;
+            pollutantPhrase?: string | null;
             /**
              * AQI based on carbon monoxide
              */
-            AQI_CO?: number;
+            AQI_CO?: number | null;
             /**
              * AQI based on nitrogen dioxide
              */
-            AQI_NO2?: number;
+            AQI_NO2?: number | null;
             /**
              * AQI based on ozone
              */
-            AQI_GO3?: number;
+            AQI_GO3?: number | null;
             /**
              * AQI based on sulfur dioxide
              */
-            AQI_SO2?: number;
+            AQI_SO2?: number | null;
             /**
              * AQI based on particulate matter (PM2.5)
              */
-            AQI_PM2P5?: number;
+            AQI_PM2P5?: number | null;
             /**
              * AQI based on particulate matter (PM10)
              */
-            AQI_PM10?: number;
+            AQI_PM10?: number | null;
         }>;
     };
 };
@@ -1491,19 +1491,19 @@ export type GetApiV1PollenForecastHourlyLocationResponses = {
      */
     200: {
         forecast?: Array<{
-            time?: string;
-            alder?: number;
-            birch?: number;
-            grass?: number;
-            mugwort?: number;
-            olive?: number;
-            ragweed?: number;
-            alder_m3?: number;
-            birch_m3?: number;
-            grass_m3?: number;
-            mugwort_m3?: number;
-            olive_m3?: number;
-            ragweed_m3?: number;
+            time?: string | null;
+            alder?: number | null;
+            birch?: number | null;
+            grass?: number | null;
+            mugwort?: number | null;
+            olive?: number | null;
+            ragweed?: number | null;
+            alder_m3?: number | null;
+            birch_m3?: number | null;
+            grass_m3?: number | null;
+            mugwort_m3?: number | null;
+            olive_m3?: number | null;
+            ragweed_m3?: number | null;
         }>;
     };
 };
@@ -1536,19 +1536,19 @@ export type GetApiV1PollenForecastDailyLocationResponses = {
             /**
              * ISO 8601 date
              */
-            date?: string;
-            alder?: number;
-            birch?: number;
-            grass?: number;
-            mugwort?: number;
-            olive?: number;
-            ragweed?: number;
-            alder_m3?: number;
-            birch_m3?: number;
-            grass_m3?: number;
-            mugwort_m3?: number;
-            olive_m3?: number;
-            ragweed_m3?: number;
+            date?: string | null;
+            alder?: number | null;
+            birch?: number | null;
+            grass?: number | null;
+            mugwort?: number | null;
+            olive?: number | null;
+            ragweed?: number | null;
+            alder_m3?: number | null;
+            birch_m3?: number | null;
+            grass_m3?: number | null;
+            mugwort_m3?: number | null;
+            olive_m3?: number | null;
+            ragweed_m3?: number | null;
         }>;
     };
 };
@@ -1581,35 +1581,35 @@ export type GetApiV1ClimateMonthlyLocationResponses = {
             /**
              * Month of year
              */
-            month?: string;
+            month?: string | null;
             /**
              * Daily maximum temperature
              */
-            dayMaxTemp?: number;
+            dayMaxTemp?: number | null;
             /**
              * Daily minimum temperature
              */
-            dayMinTemp?: number;
+            dayMinTemp?: number | null;
             /**
              * Daily average temperature
              */
-            dayAvgTemp?: number;
+            dayAvgTemp?: number | null;
             /**
              * Precipitation sum (mm)
              */
-            precipSum?: number;
+            precipSum?: number | null;
             /**
              * Precipitation accumulation during a day (mm)
              */
-            dailyPrecip?: number;
+            dailyPrecip?: number | null;
             /**
              * Number of rain days in month (≥0.1 mm of precipitation)
              */
-            rainDays?: number;
+            rainDays?: number | null;
             /**
              * Number of frost days in month
              */
-            frostDays?: number;
+            frostDays?: number | null;
             /**
              * Average sea surface temperature, null outside seas or coastal areas
              */
@@ -1650,23 +1650,23 @@ export type GetApiV1ClimateDailyLocationResponses = {
             /**
              * Month of year
              */
-            month?: string;
+            month?: string | null;
             /**
              * Day of the month
              */
-            day?: string;
+            day?: string | null;
             /**
              * Average minimum temperature of the day
              */
-            avgMinTemp?: number;
+            avgMinTemp?: number | null;
             /**
              * Average temperature of the day
              */
-            avgTemp?: number;
+            avgTemp?: number | null;
             /**
              * Average maximum temperature of the day
              */
-            avgMaxTemp?: number;
+            avgMaxTemp?: number | null;
         }>;
     };
 };
@@ -1731,264 +1731,264 @@ export type GetYourEndpointIdJsonPhpResponses = {
          * Weather station information (included when optparams=station). Contains name (string), lon (number) and lat (number).
          */
         station?: {
-            name?: string;
-            lon?: number;
-            lat?: number;
+            name?: string | null;
+            lon?: number | null;
+            lat?: number | null;
         };
         hourly?: {
             date?: {
-                pretty?: string;
-                year?: string;
-                month?: string;
-                day?: string;
-                hour?: string;
-                min?: string;
-                tz?: string;
+                pretty?: string | null;
+                year?: string | null;
+                month?: string | null;
+                day?: string | null;
+                hour?: string | null;
+                min?: string | null;
+                tz?: string | null;
             };
             utcdate?: {
-                iso8601?: string;
-                year?: string;
-                month?: string;
-                day?: string;
-                hour?: string;
-                min?: string;
-                tz?: string;
+                iso8601?: string | null;
+                year?: string | null;
+                month?: string | null;
+                day?: string | null;
+                hour?: string | null;
+                min?: string | null;
+                tz?: string | null;
             };
             observations?: Array<{
                 dt?: {
-                    pretty?: string;
-                    year?: string;
-                    month?: string;
-                    day?: string;
-                    hour?: string;
-                    min?: string;
-                    tz?: string;
+                    pretty?: string | null;
+                    year?: string | null;
+                    month?: string | null;
+                    day?: string | null;
+                    hour?: string | null;
+                    min?: string | null;
+                    tz?: string | null;
                 };
                 dtu?: {
-                    iso8601?: string;
-                    year?: string;
-                    month?: string;
-                    day?: string;
-                    hour?: string;
-                    min?: string;
-                    tz?: string;
+                    iso8601?: string | null;
+                    year?: string | null;
+                    month?: string | null;
+                    day?: string | null;
+                    hour?: string | null;
+                    min?: string | null;
+                    tz?: string | null;
                 };
                 /**
                  * Temperature
                  */
-                t?: string;
+                t?: string | null;
                 /**
                  * Dew point
                  */
-                d?: string;
+                d?: string | null;
                 /**
                  * Relative humidity (%)
                  */
-                rh?: string;
+                rh?: string | null;
                 /**
                  * Wind speed
                  */
-                ws?: string;
+                ws?: string | null;
                 /**
                  * Wind gust speed
                  */
-                gust?: string;
+                gust?: string | null;
                 /**
                  * Wind direction in degrees
                  */
-                wd?: string;
+                wd?: string | null;
                 /**
                  * Wind direction (N, NE, E, SE, S, SW, W, NW)
                  */
-                wn?: string;
+                wn?: string | null;
                 /**
                  * visibility in meters, e.g. "10000" for 10 km
                  */
-                v?: string;
+                v?: string | null;
                 /**
                  * Atmospheric pressure normalized to sea level (hPa)
                  */
-                p?: string;
+                p?: string | null;
                 /**
                  * Feels like temperature
                  */
-                tf?: string;
+                tf?: string | null;
                 /**
                  * 1 hour accumulated precipitation
                  */
-                pr1?: string;
+                pr1?: string | null;
                 /**
                  * symbol text
                  */
-                sT?: string;
+                sT?: string | null;
                 /**
                  * Weather symbol code
                  */
-                s?: string;
+                s?: string | null;
                 /**
                  * Whether there was fog
                  */
-                fog?: string;
+                fog?: string | null;
                 /**
                  * Whether there was rain
                  */
-                rain?: string;
+                rain?: string | null;
                 /**
                  * Whether there was snow or sleet
                  */
-                snow?: string;
+                snow?: string | null;
                 /**
                  * Whether there was hail
                  */
-                hail?: string;
+                hail?: string | null;
                 /**
                  * Whether there was thunder
                  */
-                thunder?: string;
+                thunder?: string | null;
                 /**
                  * Whether there were tornadoes
                  */
-                tornado?: string;
+                tornado?: string | null;
             }>;
         };
         dailysummary?: {
             dt?: {
-                pretty?: string;
-                year?: string;
-                month?: string;
-                day?: string;
-                hour?: string;
-                min?: string;
-                tz?: string;
+                pretty?: string | null;
+                year?: string | null;
+                month?: string | null;
+                day?: string | null;
+                hour?: string | null;
+                min?: string | null;
+                tz?: string | null;
             };
             /**
              * Whether there was fog
              */
-            fog?: string;
+            fog?: string | null;
             /**
              * Whether there was rain
              */
-            rain?: string;
+            rain?: string | null;
             /**
              * Whether there was snow or sleet
              */
-            snow?: string;
+            snow?: string | null;
             /**
              * Accumulated snowfall (cm)
              */
-            snowfall?: string;
+            snowfall?: string | null;
             /**
              * Accumulated snowfall month-to-date
              */
-            snowfallmonthtodate?: string;
+            snowfallmonthtodate?: string | null;
             /**
              * Accumulated snowfall since last July 1st
              */
-            snowfallsincejul1?: string;
+            snowfallsincejul1?: string | null;
             /**
              * Snow depth (cm)
              */
-            snowdepth?: string;
+            snowdepth?: string | null;
             /**
              * Whether there was hail
              */
-            hail?: string;
+            hail?: string | null;
             /**
              * Whether there was thunder
              */
-            thunder?: string;
+            thunder?: string | null;
             /**
              * Whether there were tornadoes
              */
-            tornado?: string;
+            tornado?: string | null;
             /**
              * Average temperature
              */
-            ta?: string;
+            ta?: string | null;
             /**
              * Average dew point
              */
-            da?: string;
+            da?: string | null;
             /**
              * Average pressure (hPa)
              */
-            pa?: string;
+            pa?: string | null;
             /**
              * Average wind speed
              */
-            wsa?: string;
+            wsa?: string | null;
             /**
              * Average wind direction name
              */
-            wna?: string;
+            wna?: string | null;
             /**
              * Average wind direction (degrees)
              */
-            wda?: string;
+            wda?: string | null;
             /**
              * Average visibility (meters)
              */
-            va?: string;
+            va?: string | null;
             /**
              * Average relative humidity (%)
              */
-            rha?: string;
+            rha?: string | null;
             /**
              * Maximum temperature
              */
-            tx?: string;
+            tx?: string | null;
             /**
              * Minimum temperature
              */
-            tn?: string;
+            tn?: string | null;
             /**
              * Maximum relative humidity (%)
              */
-            rhx?: string;
+            rhx?: string | null;
             /**
              * Minimum relative humidity (%)
              */
-            rhn?: string;
+            rhn?: string | null;
             /**
              * Maximum dew point
              */
-            dx?: string;
+            dx?: string | null;
             /**
              * Minimum dew point
              */
-            dn?: string;
+            dn?: string | null;
             /**
              * Maximum pressure (hPa)
              */
-            px?: string;
+            px?: string | null;
             /**
              * Minimum pressure (hPa)
              */
-            pn?: string;
+            pn?: string | null;
             /**
              * Maximum wind speed
              */
-            wsx?: string;
+            wsx?: string | null;
             /**
              * Minimum wind speed
              */
-            wsn?: string;
+            wsn?: string | null;
             /**
              * Maximum visibility (meters)
              */
-            vx?: string;
+            vx?: string | null;
             /**
              * Minimum visibility (meters)
              */
-            vn?: string;
+            vn?: string | null;
             /**
              * Accumulated precipitation from 24h
              */
-            pr24?: string;
+            pr24?: string | null;
             /**
              * Most occurred precipitation type (rain, hail, snow, mixed) or noprec if no precipitation during the time
              */
-            prtype?: string;
+            prtype?: string | null;
         };
     };
 };
@@ -2025,11 +2025,11 @@ export type GetApiV1WarningLocationResponses = {
             /**
              * Warning ID
              */
-            type?: string;
+            type?: string | null;
             /**
              * One of: Y (yellow, moderate), O (orange, severe), R (red, extreme), P (purple, emergency), NP (not applicable, very minor)
              */
-            significance?: string;
+            significance?: string | null;
             /**
              * Attribution: organization abbreviations
              */
@@ -2037,20 +2037,20 @@ export type GetApiV1WarningLocationResponses = {
             /**
              * ISO 8601 date and time
              */
-            validFrom?: string;
+            validFrom?: string | null;
             /**
              * ISO 8601 date and time
              */
-            validUntil?: string;
+            validUntil?: string | null;
             description?: Array<{
                 /**
                  * Language of warning description (ISO 639-1 codes)
                  */
-                lang?: string;
+                lang?: string | null;
                 /**
                  * Description of the particular warning in the associated language
                  */
-                text?: string;
+                text?: string | null;
             }>;
             /**
              * Attribution URL
@@ -2059,16 +2059,16 @@ export type GetApiV1WarningLocationResponses = {
             /**
              * Link to warning description provided by source (if applicable)
              */
-            link?: string;
+            link?: string | null;
             /**
              * ISO 8601 date and time of warning sent
              */
-            sent?: string;
-            name?: string;
+            sent?: string | null;
+            name?: string | null;
             /**
              * Description of significance level
              */
-            significanceDescription?: string;
+            significanceDescription?: string | null;
         }>;
     };
 };
@@ -2091,31 +2091,31 @@ export type GetApiV1WarningTypesResponses = {
             /**
              * Name of warning type
              */
-            name?: string;
+            name?: string | null;
         };
         AS?: {
             /**
              * Name of warning type
              */
-            name?: string;
+            name?: string | null;
         };
         AV?: {
             /**
              * Name of warning type
              */
-            name?: string;
+            name?: string | null;
         };
         CD?: {
             /**
              * Name of warning type
              */
-            name?: string;
+            name?: string | null;
         };
         CE?: {
             /**
              * Name of warning type
              */
-            name?: string;
+            name?: string | null;
         };
     };
 };
@@ -2160,55 +2160,55 @@ export type GetApiV1MarineForecastHourlyLocationResponses = {
             /**
              * Peak wave period, of 1D spectra, in seconds, ≥ 0
              */
-            peak1DSpectraPeriod?: number;
+            peak1DSpectraPeriod?: number | null;
             /**
              * Sea temperature
              */
-            seaTemp?: number;
+            seaTemp?: number | null;
             /**
              * Significant swell wave height, in metres, ≥ 0
              */
-            sigSwellHeight?: number;
+            sigSwellHeight?: number | null;
             /**
              * Significant wave height, in metres
              */
-            sigWaveHeight?: number;
+            sigWaveHeight?: number | null;
             /**
              * The direction where total swell is coming from, in degrees, 0...360° (0°: from north, 180°: from south)
              */
-            swellDir?: number;
+            swellDir?: number | null;
             /**
              * Mean period of total swell, in seconds
              */
-            swellPeriod?: number;
+            swellPeriod?: number | null;
             /**
              * Sea temperature in swimming locations
              */
-            swimTemp?: number;
+            swimTemp?: number | null;
             /**
              * ISO 8601 date and time
              */
-            time?: string;
+            time?: string | null;
             /**
              * The mean direction where waves are coming from, in degrees
              */
-            waveDir?: number;
+            waveDir?: number | null;
             /**
              * Mean wave period, in seconds
              */
-            wavePeriod?: number;
+            wavePeriod?: number | null;
             /**
              * The mean direction where wind waves are coming from, in degrees
              */
-            windWaveDir?: number;
+            windWaveDir?: number | null;
             /**
              * Period of wind waves, in seconds
              */
-            windWavePeriod?: number;
+            windWavePeriod?: number | null;
             /**
              * Significant height of wind waves, in metres
              */
-            windWaveSigHeight?: number;
+            windWaveSigHeight?: number | null;
         }>;
     };
 };
@@ -2245,43 +2245,43 @@ export type GetApiV1MarineForecastDailyLocationResponses = {
             /**
              * ISO 8601 date
              */
-            date?: string;
+            date?: string | null;
             /**
              * Maximum peak wave period, of 1D spectra, in seconds, ≥ 0
              */
-            maxPeak1DSpectraPeriod?: number;
+            maxPeak1DSpectraPeriod?: number | null;
             /**
              * Maximum sea temperature
              */
-            maxSeaTemp?: number;
+            maxSeaTemp?: number | null;
             /**
              * Maximum significant wave height, in metres, ≥ 0
              */
-            maxSigWaveHeight?: number;
+            maxSigWaveHeight?: number | null;
             /**
              * Maximum swell wave height, in metres
              */
-            maxSwellHeight?: number;
+            maxSwellHeight?: number | null;
             /**
              * Maximum period of total swell, in seconds
              */
-            maxSwellPeriod?: number;
+            maxSwellPeriod?: number | null;
             /**
              * Maximum sea temperature in swimming locations
              */
-            maxSwimTemp?: number;
+            maxSwimTemp?: number | null;
             /**
              * Maximum wave period, in seconds
              */
-            maxWavePeriod?: number;
+            maxWavePeriod?: number | null;
             /**
              * Maximum period of wind waves, in seconds
              */
-            maxWindWavePeriod?: number;
+            maxWindWavePeriod?: number | null;
             /**
              * Maximum significant height of wind waves, in metres
              */
-            maxWindWaveSigHeight?: number;
+            maxWindWaveSigHeight?: number | null;
         }>;
     };
 };
@@ -2318,31 +2318,31 @@ export type GetApiV1SkiCurrentLocationResponses = {
             /**
              * Site name
              */
-            name?: string;
+            name?: string | null;
             /**
              * Country code (ISO 3166-1 alpha-2)
              */
-            countryCode?: string;
+            countryCode?: string | null;
             /**
              * Country name
              */
-            countryName?: string;
+            countryName?: string | null;
             /**
              * State (if applicable)
              */
-            state?: string;
+            state?: string | null;
             /**
              * City
              */
-            city?: string;
+            city?: string | null;
             /**
              * Postal code
              */
-            postalCode?: string;
+            postalCode?: string | null;
             /**
              * Street
              */
-            street?: string;
+            street?: string | null;
             /**
              * House number
              */
@@ -2350,51 +2350,51 @@ export type GetApiV1SkiCurrentLocationResponses = {
             /**
              * Address
              */
-            address?: string;
+            address?: string | null;
             /**
              * longitude
              */
-            longitude?: number;
+            longitude?: number | null;
             /**
              * latitude
              */
-            latitude?: number;
+            latitude?: number | null;
             /**
              * Opening time (HH:MM)
              */
-            openFrom?: string;
+            openFrom?: string | null;
             /**
              * Open until time of day (HH:MM)
              */
-            openUntil?: string;
+            openUntil?: string | null;
             /**
              * Open status
              */
-            isOpen?: boolean;
+            isOpen?: boolean | null;
             /**
              * Altitude at base
              */
-            altitudeBase?: number;
+            altitudeBase?: number | null;
             /**
              * Altitude at peak
              */
-            altitudePeak?: number;
+            altitudePeak?: number | null;
             /**
              * Surface condition description
              */
-            primarySurfaceCondition?: string;
+            primarySurfaceCondition?: string | null;
             /**
              * Number of lifts open
              */
-            liftsOpen?: number;
+            liftsOpen?: number | null;
             /**
              * Total number of lifts
              */
-            lifts?: number;
+            lifts?: number | null;
             /**
              * Skiing available
              */
-            hasSkiing?: boolean;
+            hasSkiing?: boolean | null;
             /**
              * Nordic skiing length (km)
              */
@@ -2402,23 +2402,23 @@ export type GetApiV1SkiCurrentLocationResponses = {
             /**
              * Pistes length (km)
              */
-            kmPistes?: number;
+            kmPistes?: number | null;
             /**
              * Total open (km)
              */
-            kmOpen?: number;
+            kmOpen?: number | null;
             /**
              * Valley run available
              */
-            hasValleyRun?: boolean;
+            hasValleyRun?: boolean | null;
             /**
              * Valley run status ("true", "false", "conditional")
              */
-            valleyRunOpen?: string;
+            valleyRunOpen?: string | null;
             /**
              * Toboggan runs available
              */
-            hasTobogganRuns?: boolean;
+            hasTobogganRuns?: boolean | null;
             /**
              * Length of toboggan runs
              */
@@ -2426,7 +2426,7 @@ export type GetApiV1SkiCurrentLocationResponses = {
             /**
              * Date of last new snow
              */
-            lastSnowDate?: string;
+            lastSnowDate?: string | null;
             /**
              * Amount of new snow last time
              */
@@ -2434,27 +2434,27 @@ export type GetApiV1SkiCurrentLocationResponses = {
             /**
              * Night skiing available
              */
-            nightSkiing?: boolean;
+            nightSkiing?: boolean | null;
             /**
              * Depth of snow at peak
              */
-            snowDepthPeak?: number;
+            snowDepthPeak?: number | null;
             /**
              * Depth of snow at base
              */
-            snowDepthBase?: number;
+            snowDepthBase?: number | null;
             /**
              * Fun park available
              */
-            hasFunPark?: boolean;
+            hasFunPark?: boolean | null;
             /**
              * Fun park open
              */
-            funParkOpen?: boolean;
+            funParkOpen?: boolean | null;
             /**
              * Date and time of last update (ISO 8601)
              */
-            updated?: string;
+            updated?: string | null;
         }>;
     };
 };
@@ -2491,19 +2491,19 @@ export type GetApiV1AgricultureForecastHourlyLocationResponses = {
             /**
              * ISO 8601 date and time
              */
-            time?: string;
+            time?: string | null;
             /**
              * Reference evapotranspiration rate (mm/h)
              */
-            ET0?: number;
+            ET0?: number | null;
             /**
              * Vapor pressure deficit (kPa)
              */
-            VPD?: number;
+            VPD?: number | null;
             /**
              * Surface solar radiation downwards, W/m² (watts per square meter)
              */
-            SSRD?: number;
+            SSRD?: number | null;
         }>;
     };
 };
@@ -2536,43 +2536,43 @@ export type GetApiV1AgricultureForecastDailyLocationResponses = {
             /**
              * ISO 8601 date
              */
-            date?: string;
+            date?: string | null;
             /**
              * Reference evapotranspiration (mm)
              */
-            ET0?: number;
+            ET0?: number | null;
             /**
              * Maximum vapor pressure deficit (kPa)
              */
-            VPD_max?: number;
+            VPD_max?: number | null;
             /**
              * Minimum vapor pressure deficit (kPa)
              */
-            VPD_min?: number;
+            VPD_min?: number | null;
             /**
              * Vapor pressure deficit average (kPa)
              */
-            VPD?: number;
+            VPD?: number | null;
             /**
              * Surface solar radiation downwards (24h sum, Wh/m²)
              */
-            SSRD?: number;
+            SSRD?: number | null;
             /**
              * Lower bound estimate for precipitation sum during the day (10th percentile, mm)
              */
-            precipSum24q10?: number;
+            precipSum24q10?: number | null;
             /**
              * Higher bound estimate for precipitation sum during the day (90th percentile, mm)
              */
-            precipSum24q90?: number;
+            precipSum24q90?: number | null;
             /**
              * Lower bound estimate for 7-day precipitation sum during the day and 6 following days (10th percentile, mm)
              */
-            precipSum168q10?: number;
+            precipSum168q10?: number | null;
             /**
              * Higher bound estimate for 7-day precipitation sum during the day and 6 following days (90th percentile, mm)
              */
-            precipSum168q90?: number;
+            precipSum168q90?: number | null;
         }>;
     };
 };
@@ -2613,40 +2613,40 @@ export type GetApiV1EnergyForecast15MinutelyLocationResponses = {
             /**
              * Dew point, in °C (degree Celsius, or requested tempunit)
              */
-            dewPoint?: number;
+            dewPoint?: number | null;
             /**
              * Relative humidity at 2 m height, in % (percentage)
              */
-            relHumidity?: number;
+            relHumidity?: number | null;
             /**
              * Temperature at 2 m height, in °C (degree Celsius, or requested tempunit)
              */
-            temperature?: number;
-            time?: string;
+            temperature?: number | null;
+            time?: string | null;
             /**
              * Wind direction at 100 m height, in degrees, 0...360° (0°: from north, 180°: from south)
              */
-            windd_h100?: number;
+            windd_h100?: number | null;
             /**
              * Wind direction at 150 m height, in degrees (from windd_h100 and windd_h200)
              */
-            windd_h150?: number;
+            windd_h150?: number | null;
             /**
              * Wind direction at 200 m height, in degrees
              */
-            windd_h200?: number;
+            windd_h200?: number | null;
             /**
              * Wind speed at 100 m height, in m/s (meters per second)
              */
-            winds_h100?: number;
+            winds_h100?: number | null;
             /**
              * Wind speed at 150 m height, in m/s (from winds_h100 and winds_h200)
              */
-            winds_h150?: number;
+            winds_h150?: number | null;
             /**
              * Wind speed at 200 m height, in m/s
              */
-            winds_h200?: number;
+            winds_h200?: number | null;
         }>;
     };
 };
@@ -2687,44 +2687,44 @@ export type GetApiV1EnergyForecastHourlyLocationResponses = {
             /**
              * Dew point, in °C (degree Celsius, or requested tempunit)
              */
-            dewPoint?: number;
+            dewPoint?: number | null;
             /**
              * Relative humidity at 2 m height, in % (percentage)
              */
-            relHumidity?: number;
+            relHumidity?: number | null;
             /**
              * Surface short-wave (solar) radiation downwards, in W/m² (watts per square meter)
              */
-            ssrd?: number;
+            ssrd?: number | null;
             /**
              * Temperature at 2 m height, in °C (degree Celsius, or requested tempunit)
              */
-            temperature?: number;
-            time?: string;
+            temperature?: number | null;
+            time?: string | null;
             /**
              * Wind direction at 100 m height, in degrees, 0...360° (0°: from north, 180°: from south)
              */
-            windd_h100?: number;
+            windd_h100?: number | null;
             /**
              * Wind direction at 150 m height, in degrees (from windd_h100 and windd_h200)
              */
-            windd_h150?: number;
+            windd_h150?: number | null;
             /**
              * Wind direction at 200 m height, in degrees
              */
-            windd_h200?: number;
+            windd_h200?: number | null;
             /**
              * Wind speed at 100 m height, in m/s (meters per second)
              */
-            winds_h100?: number;
+            winds_h100?: number | null;
             /**
              * Wind speed at 150 m height, in m/s (from winds_h100 and winds_h200)
              */
-            winds_h150?: number;
+            winds_h150?: number | null;
             /**
              * Wind speed at 200 m height, in m/s
              */
-            winds_h200?: number;
+            winds_h200?: number | null;
         }>;
     };
 };
@@ -2759,7 +2759,7 @@ export type GetApiV1HurricaneCurrentResponses = {
             /**
              * Number of storm feature collections returned
              */
-            count?: number;
+            count?: number | null;
             /**
              * Area codes that currently have data
              */
@@ -2767,7 +2767,7 @@ export type GetApiV1HurricaneCurrentResponses = {
             /**
              * Always "FeatureCollection"
              */
-            type?: string;
+            type?: string | null;
         };
         /**
          * Array of storm feature collections
@@ -2776,7 +2776,7 @@ export type GetApiV1HurricaneCurrentResponses = {
             /**
              * Always "FeatureCollection"
              */
-            type?: string;
+            type?: string | null;
             /**
              * Array of GeoJSON features representing storm track, points, and cones
              */
@@ -2785,127 +2785,127 @@ export type GetApiV1HurricaneCurrentResponses = {
                     /**
                      * Storm name (e.g., "PODUL", "BERYL")
                      */
-                    name?: string;
+                    name?: string | null;
                     /**
                      * Local language storm name if available
                      */
-                    nameLocal?: string;
+                    nameLocal?: string | null;
                     /**
                      * Unique storm identifier (e.g., "wp152025")
                      */
-                    id?: string;
+                    id?: string | null;
                     /**
                      * Abbreviated storm label. Note: US hurricanes return "Category" and other US storm types return an empty string. Other regions return "D", "S", "T", "1", etc.
                      */
-                    shortLabel?: string;
+                    shortLabel?: string | null;
                     /**
                      * Data attribution/source agency
                      */
-                    attr?: string;
+                    attr?: string | null;
                     /**
                      * Storm category label. Examples: "3" (US Cat 3), "TD" (Tropical Depression), "T" (Typhoon), "Cat 3" (Australia).
                      */
-                    label?: string;
+                    label?: string | null;
                     /**
                      * Date in human-readable format
                      */
-                    date?: string;
+                    date?: string | null;
                     /**
                      * Human-readable time label
                      */
-                    timeLabel?: string;
+                    timeLabel?: string | null;
                     /**
                      * Time of observation/forecast in ISO 8601 format
                      */
-                    timeISO8601?: string;
+                    timeISO8601?: string | null;
                     /**
                      * Time when bulletin was issued
                      */
-                    issued?: string;
+                    issued?: string | null;
                     /**
                      * Data type ("OBSERVATION", "FORECAST", "CONE")
                      */
-                    dataType?: string;
+                    dataType?: string | null;
                     /**
                      * Advisory number
                      */
-                    advisory?: number;
+                    advisory?: number | null;
                     /**
                      * Storm classification. Values vary by agency: "Hurricane", "Typhoon", "Tropical storm", "Severe Tropical Storm", "Cyclonic Storm", etc.
                      */
-                    stormType?: string;
+                    stormType?: string | null;
                     /**
                      * Full storm title
                      */
-                    title?: string;
+                    title?: string | null;
                     /**
                      * Current storm category/intensity
                      */
-                    category?: string;
+                    category?: string | null;
                     /**
                      * Storm movement direction
                      */
-                    direction?: string;
+                    direction?: string | null;
                     /**
                      * Storm movement direction (degrees)
                      */
-                    directionDEG?: number;
+                    directionDEG?: number | null;
                     /**
                      * Central pressure (hPa/mb)
                      */
-                    pressure?: number;
+                    pressure?: number | null;
                     /**
                      * Central pressure (inches of mercury)
                      */
-                    pressureIN?: number;
+                    pressureIN?: number | null;
                     /**
                      * Maximum sustained winds (mph)
                      */
-                    maxWind?: number;
+                    maxWind?: number | null;
                     /**
                      * Maximum sustained winds (knots)
                      */
-                    maxWindKTS?: number;
+                    maxWindKTS?: number | null;
                     /**
                      * Maximum sustained winds (km/h)
                      */
-                    maxWindKPH?: number;
+                    maxWindKPH?: number | null;
                     /**
                      * Maximum sustained winds (m/s)
                      */
-                    maxWindMS?: number;
+                    maxWindMS?: number | null;
                     /**
                      * Maximum wind gusts (mph)
                      */
-                    maxGust?: number;
+                    maxGust?: number | null;
                     /**
                      * Maximum wind gusts (knots)
                      */
-                    maxGustKTS?: number;
+                    maxGustKTS?: number | null;
                     /**
                      * Maximum wind gusts (km/h)
                      */
-                    maxGustKPH?: number;
+                    maxGustKPH?: number | null;
                     /**
                      * Maximum wind gusts (m/s)
                      */
-                    maxGustMS?: number;
+                    maxGustMS?: number | null;
                     /**
                      * Storm movement speed
                      */
-                    propagationSpeed?: number;
+                    propagationSpeed?: number | null;
                     /**
                      * Storm movement speed (knots)
                      */
-                    propagationSpeedKTS?: number;
+                    propagationSpeedKTS?: number | null;
                     /**
                      * Storm movement speed (km/h)
                      */
-                    propagationSpeedKPH?: number;
+                    propagationSpeedKPH?: number | null;
                     /**
                      * Storm movement speed (m/s)
                      */
-                    propagationSpeedMS?: number;
+                    propagationSpeedMS?: number | null;
                     /**
                      * Probability radius information for uncertainty (km)
                      */
@@ -2913,24 +2913,24 @@ export type GetApiV1HurricaneCurrentResponses = {
                     /**
                      * Source/agency identifier (e.g. "NOAA", "JMA")
                      */
-                    source?: string;
+                    source?: string | null;
                     /**
                      * Most recent observed category
                      */
-                    lastCategory?: string;
+                    lastCategory?: string | null;
                     /**
                      * Maximum category reached during storm lifecycle
                      */
-                    maxCategory?: string;
+                    maxCategory?: string | null;
                     /**
                      * Local numbering system storm number
                      */
-                    numberLocal?: number;
+                    numberLocal?: number | null;
                 };
                 /**
                  * Always "FeatureCollection"
                  */
-                type?: string;
+                type?: string | null;
                 /**
                  * GeoJSON geometry (Point for positions, LineString for tracks, Polygon for cones)
                  */
@@ -2938,7 +2938,7 @@ export type GetApiV1HurricaneCurrentResponses = {
                     /**
                      * Always "FeatureCollection"
                      */
-                    type?: string;
+                    type?: string | null;
                     /**
                      * GeoJSON coordinates array
                      */
@@ -2977,44 +2977,44 @@ export type GetApiV1HurricaneHistoryResponses = {
      */
     200: {
         metadata?: {
-            count?: number;
+            count?: number | null;
             areas_available?: Array<string>;
-            type?: string;
-            limit_applied?: number;
+            type?: string | null;
+            limit_applied?: number | null;
         };
         data?: Array<{
-            type?: string;
+            type?: string | null;
             features?: Array<{
                 geometry?: {
                     coordinates?: Array<number>;
-                    type?: string;
+                    type?: string | null;
                 };
-                type?: string;
+                type?: string | null;
                 properties?: {
-                    pressure?: number;
-                    stormType?: string;
-                    dataType?: string;
-                    date?: string;
-                    shortLabel?: string;
-                    propagationSpeed?: number;
-                    maxGustMS?: number;
-                    direction?: string;
-                    numberLocal?: number;
-                    category?: number;
-                    id?: string;
-                    name?: string;
+                    pressure?: number | null;
+                    stormType?: string | null;
+                    dataType?: string | null;
+                    date?: string | null;
+                    shortLabel?: string | null;
+                    propagationSpeed?: number | null;
+                    maxGustMS?: number | null;
+                    direction?: string | null;
+                    numberLocal?: number | null;
+                    category?: number | null;
+                    id?: string | null;
+                    name?: string | null;
                     probabilityRadius?: string | null;
-                    timeISO8601?: string;
-                    maxWindMS?: number;
-                    issued?: string;
-                    propagationSpeedMS?: number;
-                    maxWind?: number;
-                    timeLabel?: string;
-                    label?: string;
-                    title?: string;
-                    maxGust?: number;
-                    nameLocal?: string;
-                    advisory?: number;
+                    timeISO8601?: string | null;
+                    maxWindMS?: number | null;
+                    issued?: string | null;
+                    propagationSpeedMS?: number | null;
+                    maxWind?: number | null;
+                    timeLabel?: string | null;
+                    label?: string | null;
+                    title?: string | null;
+                    maxGust?: number | null;
+                    nameLocal?: string | null;
+                    advisory?: number | null;
                 };
             }>;
         }>;
@@ -3053,27 +3053,27 @@ export type GetApiV1LightningLocationResponses = {
             /**
              * Latitude of the flash, in degrees
              */
-            lat?: number;
+            lat?: number | null;
             /**
              * Longitude of the flash, in degrees
              */
-            lon?: number;
+            lon?: number | null;
             /**
              * Detection time, ISO 8601 UTC
              */
-            time?: string;
+            time?: string | null;
             /**
              * Distance from the point, in kilometres
              */
-            distance?: number;
+            distance?: number | null;
             /**
              * Compass direction from the point to the flash: N, NE, E, SE, S, SW, W or NW
              */
-            bearing?: string;
+            bearing?: string | null;
             /**
              * Satellite that detected the flash: GOES19, GOES18 or EUMETSAT
              */
-            source?: string;
+            source?: string | null;
         }>;
     };
 };
@@ -3109,11 +3109,11 @@ export type GetApiV1LightningBboxBboxResponses = {
         /**
          * End time of the frame served, ISO 8601 UTC
          */
-        frame?: string;
+        frame?: string | null;
         /**
          * The frame before, or null at the oldest frame still available
          */
-        prev?: string;
+        prev?: string | null;
         /**
          * The frame after, or null at the newest frame
          */
@@ -3122,19 +3122,19 @@ export type GetApiV1LightningBboxBboxResponses = {
             /**
              * Latitude of the flash, in degrees
              */
-            lat?: number;
+            lat?: number | null;
             /**
              * Longitude of the flash, in degrees
              */
-            lon?: number;
+            lon?: number | null;
             /**
              * Detection time, ISO 8601 UTC
              */
-            time?: string;
+            time?: string | null;
             /**
              * Satellite that detected the flash: GOES19, GOES18 or EUMETSAT
              */
-            source?: string;
+            source?: string | null;
         }>;
     };
 };
@@ -3154,9 +3154,9 @@ export type PostAuthorizeKeyResponses = {
      */
     200: {
         tokens?: Array<{
-            access_token?: string;
-            key?: string;
-            label?: string;
+            access_token?: string | null;
+            key?: string | null;
+            label?: string | null;
             expires_at?: string | null;
         }>;
     };
@@ -3206,20 +3206,20 @@ export type GetUsageMonthMonthResponses = {
      */
     200: {
         apis?: Array<{
-            name?: string;
-            hits?: number;
+            name?: string | null;
+            hits?: number | null;
         }>;
-        hits?: number;
+        hits?: number | null;
         daily?: Array<{
-            date?: string;
+            date?: string | null;
             apis?: Array<{
-                name?: string;
-                hits?: number;
+                name?: string | null;
+                hits?: number | null;
             }>;
         }>;
         breakdown?: Array<{
-            endpoint?: string;
-            hits?: number;
+            endpoint?: string | null;
+            hits?: number | null;
         }>;
     };
 };
@@ -3249,13 +3249,13 @@ export type GetUsageDayDayResponses = {
      */
     200: {
         apis?: Array<{
-            name?: string;
-            hits?: number;
+            name?: string | null;
+            hits?: number | null;
         }>;
-        hits?: number;
+        hits?: number | null;
         breakdown?: Array<{
-            endpoint?: string;
-            hits?: number;
+            endpoint?: string | null;
+            hits?: number | null;
         }>;
     };
 };
