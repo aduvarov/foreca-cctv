@@ -112,11 +112,29 @@ fi
 echo
 
 echo '6. Вторая ссылка'
-if [ -n "$(probe tcp -select_streams v:0 -show_entries stream=width,height -of csv=p=0 "rtsp://${HOST}:${PORT}/${PATH_NAME}_sub")" ]; then
-  ok "${PATH_NAME}_sub доступна"
-else
-  bad "${PATH_NAME}_sub недоступна"
-fi
+# Проверяем именно код ответа: 302 означает редирект, который NVR обычно
+# не умеет, и в Location может оказаться внутренний адрес сервера.
+sub_status=$(python3 - "$HOST" "$PORT" "$PATH_NAME" <<'PY'
+import socket, sys
+host, port, path = sys.argv[1], sys.argv[2], sys.argv[3]
+try:
+    s = socket.create_connection((host, int(port)), timeout=5)
+    request = (
+        f'DESCRIBE rtsp://{host}:{port}/{path}_sub RTSP/1.0\r\n'
+        'CSeq: 1\r\nAccept: application/sdp\r\n\r\n'
+    )
+    s.sendall(request.encode())
+    print(s.recv(200).decode('utf8', 'replace').splitlines()[0])
+    s.close()
+except Exception as error:
+    print(f'ошибка: {error}')
+PY
+)
+case "$sub_status" in
+  *'200 OK'*) ok "${PATH_NAME}_sub отдаёт поток" ;;
+  *302*) bad "${PATH_NAME}_sub отдаёт 302: NVR может пойти на свой localhost. Нужен прокси, а не redirect" ;;
+  *) bad "${PATH_NAME}_sub: ${sub_status}" ;;
+esac
 echo
 
 if [ "$fail" -eq 0 ]; then
