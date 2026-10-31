@@ -95,7 +95,15 @@ async function resolveToken(
       continue;
     }
 
-    const client = createClient(token);
+    let client: ForecaClient;
+    try {
+      client = createClient(token);
+    } catch (error) {
+      // Клиент отвергает токен ещё до запроса: недопустимые символы.
+      io.write(describeError(error));
+      continue;
+    }
+
     try {
       await client.searchLocations('London');
       return { token, client };

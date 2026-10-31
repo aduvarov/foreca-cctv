@@ -32,7 +32,16 @@ export async function bootstrapConfig(options: BootstrapOptions): Promise<Bootst
     return { ok: false, message: 'Локация не задана' };
   }
 
-  const client = options.createClient(token);
+  let client: ForecaClient;
+  try {
+    client = options.createClient(token);
+  } catch (error) {
+    // Клиент отвергает токен до запроса: сообщаем причину, а не «проверьте сеть».
+    return {
+      ok: false,
+      message: error instanceof Error ? error.message : String(error),
+    };
+  }
 
   let found: LocationInfo[];
   try {
