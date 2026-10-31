@@ -13,10 +13,15 @@
 
 logLevel: info
 
-# Только TCP: UDP через NAT и Wi-Fi рвётся, а регистраторы обычно умеют TCP.
+# Транспорты RTSP. TCP — основной: он предсказуем через NAT и Wi-Fi.
+# UDP оставлен включённым, потому что часть регистраторов просит именно его:
+# без него они получают «461 Unsupported Transport» и канал не добавляется.
 rtsp: yes
-rtspTransports: [tcp]
+rtspTransports: [tcp, udp]
 rtspAddress: :8554
+# Адреса UDP-слушателей нужны только для udp в rtspTransports.
+rtpAddress: :8000
+rtcpAddress: :8001
 
 # Остальные протоколы сервису не нужны.
 rtmp: no

@@ -77,6 +77,20 @@ rtsp://<host>:8554/weather       — точка публикации
 rtsp://<host>:8554/weather_sub   — редирект на основной путь
 ```
 
+Включены оба транспорта RTSP: **TCP** (основной, предсказуемый через NAT)
+и **UDP** — часть регистраторов просит только его и без него получает
+`461 Unsupported Transport`. Для UDP нужны порты `8000-8001/udp`.
+
+В Docker:
+
+```bash
+docker run -d --name mediamtx \
+  -p 8554:8554 -p 8000-8001:8000-8001/udp \
+  -v "$PWD/mediamtx.yml:/mediamtx.yml:ro" \
+  -v "$PWD/assets/offline/no-data.mp4:/assets/offline/no-data.mp4:ro" \
+  bluenviron/mediamtx:latest
+```
+
 Заглушка `assets/offline/no-data.mp4` отдаётся, когда сервис не публикует поток,
 поэтому регистратор видит канал всегда. Пересоздать заглушку:
 
@@ -89,7 +103,13 @@ npx tsx scripts/make-offline-video.ts
 ```bash
 curl http://127.0.0.1:9970/health          # состояние публикации и данных
 curl -o frame.png http://127.0.0.1:9970/snapshot.png   # текущий кадр
+./scripts/check-stream.sh 192.168.1.10     # готовность потока для NVR
 ```
+
+`check-stream.sh` проверяет по порядку: жива ли публикация, отвечает ли RTSP,
+совпадают ли профиль/уровень/yuv420p, есть ли SPS/PPS и ключевой кадр,
+работает ли UDP и доступна ли вторая ссылка. Это первое, что стоит запустить,
+если регистратор не видит камеру.
 
 ## Разработка
 
