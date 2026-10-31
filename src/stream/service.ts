@@ -26,7 +26,7 @@ export interface ServiceDeps {
   readonly client: ForecaClient;
   readonly now?: () => Date;
   readonly logger?: Logger;
-  readonly createRendererImpl?: () => Promise<Renderer>;
+  readonly createRendererImpl?: (options: { width: number; height: number }) => Promise<Renderer>;
   readonly createSupervisorImpl?: (
     options: ConstructorParameters<typeof EncoderSupervisor>[0],
   ) => EncoderSupervisor;
@@ -69,7 +69,12 @@ export async function startService(deps: ServiceDeps): Promise<RunningService> {
   const now = deps.now ?? (() => new Date());
   const { config } = deps;
 
-  const renderer = deps.renderer ?? (await (deps.createRendererImpl ?? createRenderer)());
+  const renderer =
+    deps.renderer ??
+    (await (deps.createRendererImpl ?? createRenderer)({
+      width: config.stream.width,
+      height: config.stream.height,
+    }));
   const cache = new ForecastCache({ directory: config.state.cacheDir });
 
   const scheduler =

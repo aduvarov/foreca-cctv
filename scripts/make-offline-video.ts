@@ -16,8 +16,8 @@ mkdirSync(resolve(import.meta.dirname, '..', 'assets', 'offline'), { recursive: 
 
 const command = buildOfflineCommand({
   output,
-  width: 640,
-  height: 480,
+  width: 704,
+  height: 576,
   fps: 1,
   seconds: 6,
   fontPath: resolve(import.meta.dirname, '..', 'assets', 'fonts', 'NotoSans-Regular.ttf'),
@@ -26,8 +26,8 @@ const command = buildOfflineCommand({
 console.log(`ffmpeg ${command.args.join(' ')}`);
 await generateOfflineVideo({
   output,
-  width: 640,
-  height: 480,
+  width: 704,
+  height: 576,
   fps: 1,
   seconds: 6,
   fontPath: resolve(import.meta.dirname, '..', 'assets', 'fonts', 'NotoSans-Regular.ttf'),

@@ -11,11 +11,15 @@ import type { WeekChart } from '../domain/week-chart.js';
 import { drawEmptyFrame, drawFrame } from './canvas.js';
 import { ensureFonts } from './assets.js';
 import { layoutChart } from './layout.js';
-import { theme } from './theme.js';
+import { BASE_HEIGHT, BASE_WIDTH, createTheme } from './theme.js';
 import type { Theme } from './theme.js';
 
 export interface RendererOptions {
+  /** Готовая тема: имеет приоритет над размерами. */
   readonly theme?: Theme;
+  /** Размер кадра: тема строится из него масштабированием базового макета. */
+  readonly width?: number;
+  readonly height?: number;
   readonly assetsDir?: string;
 }
 
@@ -33,7 +37,8 @@ export interface Renderer {
 const EMPTY_MESSAGE = 'Нет данных о погоде';
 
 export async function createRenderer(options: RendererOptions = {}): Promise<Renderer> {
-  const activeTheme = options.theme ?? theme;
+  const activeTheme =
+    options.theme ?? createTheme(options.width ?? BASE_WIDTH, options.height ?? BASE_HEIGHT);
 
   const paths = options.assetsDir === undefined ? ensureFonts() : ensureFonts(options.assetsDir);
   const logo = await loadForecaLogo(paths.logo);
@@ -98,5 +103,5 @@ function describe(error: unknown): string {
   return error instanceof Error ? error.message : String(error);
 }
 
-export { theme } from './theme.js';
+export { theme, createTheme, BASE_WIDTH, BASE_HEIGHT } from './theme.js';
 export type { Theme } from './theme.js';

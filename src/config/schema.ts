@@ -21,8 +21,8 @@ export const locationConfigSchema = z.object({
 export const streamConfigSchema = z.object({
   fps: z.number().int().min(1).max(30).default(1),
   bitrateKbps: z.number().int().min(100).max(8_000).default(400),
-  width: z.number().int().positive().default(640),
-  height: z.number().int().positive().default(480),
+  width: z.number().int().positive().default(704),
+  height: z.number().int().positive().default(576),
   rtspUrl: z
     .string()
     .regex(/^rtsps?:\/\//, 'Адрес публикации должен начинаться с rtsp:// или rtsps://')

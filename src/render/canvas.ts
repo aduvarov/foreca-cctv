@@ -127,7 +127,7 @@ function drawIcons(ctx: SKRSContext2D, layout: ChartLayout, theme: Theme): void 
       drawWeatherIcon(ctx, slot.symbol, {
         centerX,
         centerY: theme.layout.iconCenterY,
-        radius: 8,
+        radius: theme.layout.iconRadius,
         theme,
       });
 
@@ -175,34 +175,51 @@ function drawAxis(ctx: SKRSContext2D, layout: ChartLayout, theme: Theme): void {
 }
 
 function drawTemperature(ctx: SKRSContext2D, layout: ChartLayout, theme: Theme): void {
-  ctx.strokeStyle = theme.colors.temperature;
   ctx.lineWidth = 2.4;
   ctx.lineJoin = 'round';
   ctx.lineCap = 'round';
 
-  for (const segment of layout.segments) {
-    if (segment.points.length === 1) {
-      const only = segment.points[0];
+  // Цвет по знаку температуры: тёплые участки красным, холодные — синим,
+  // как принято на погодных графиках. Переход — на нулевой линии.
+  for (const run of layout.temperatureRuns) {
+    if (run.points.length === 1) {
+      const only = run.points[0];
       if (only === undefined) continue;
-      ctx.fillStyle = theme.colors.temperature;
+      ctx.fillStyle = run.aboveZero ? theme.colors.temperature : theme.colors.temperatureCold;
       ctx.beginPath();
       ctx.arc(only.x, only.y, 1.6, 0, Math.PI * 2);
       ctx.fill();
       continue;
     }
-    traceSmoothLine(ctx, segment.points);
+    ctx.strokeStyle = run.aboveZero ? theme.colors.temperature : theme.colors.temperatureCold;
+    traceSmoothLine(ctx, run.points);
     ctx.stroke();
   }
 }
 
 function drawExtremes(ctx: SKRSContext2D, layout: ChartLayout, theme: Theme): void {
   for (const extreme of layout.extremes) {
+    const isMax = extreme.kind === 'max';
+    const color = isMax ? theme.colors.temperature : theme.colors.temperatureCold;
+
     ctx.beginPath();
     ctx.arc(extreme.x, extreme.y, 2.6, 0, Math.PI * 2);
-    ctx.fillStyle =
-      extreme.kind === 'max' ? theme.colors.temperature : theme.colors.temperatureCold;
+    ctx.fillStyle = color;
     ctx.fill();
+
+    // Подпись значения рядом с точкой: на VGA цифры min/max не читаются
+    // по кривой, поэтому значение пишется явно.
+    ctx.font = theme.fonts.extreme;
+    ctx.fillStyle = color;
+    // Максимум подписываем над точкой, минимум — под ней, чтобы подписи
+    // не перекрывали линию и друг друга.
+    ctx.textAlign = 'center';
+    ctx.textBaseline = isMax ? 'bottom' : 'top';
+    const offset = isMax ? -4 : 4;
+    ctx.fillText(extreme.label, extreme.x, extreme.y + offset);
+    ctx.textBaseline = 'alphabetic';
   }
+  ctx.textAlign = 'center';
 }
 
 function drawPrecipitation(ctx: SKRSContext2D, layout: ChartLayout, theme: Theme): void {

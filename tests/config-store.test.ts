@@ -35,7 +35,7 @@ describe('parseConfig', () => {
     expect(result.config.stream.fps).toBe(5);
     expect(result.config.stream.bitrateKbps).toBe(800);
     // Незаданные поля всё равно получили значения по умолчанию.
-    expect(result.config.stream.width).toBe(640);
+    expect(result.config.stream.width).toBe(704);
   });
 
   it('сообщает о проблемах с указанием пути', () => {

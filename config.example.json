@@ -9,8 +9,8 @@
   "stream": {
     "fps": 1,
     "bitrateKbps": 400,
-    "width": 640,
-    "height": 480,
+    "width": 704,
+    "height": 576,
     "rtspUrl": "rtsp://127.0.0.1:8554/weather"
   },
   "api": {

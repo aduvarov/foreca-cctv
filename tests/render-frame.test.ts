@@ -27,19 +27,27 @@ describe('ассеты рендера', () => {
 });
 
 describe('createRenderer', () => {
-  it('кадр имеет ровно 640x480', async () => {
+  it('кадр имеет базовый размер 704x576', async () => {
     const renderer = await createRenderer();
+    const canvas = renderer.renderFrame(createTestChart());
+
+    expect(canvas.width).toBe(704);
+    expect(canvas.height).toBe(576);
+  });
+
+  it('строит кадр запрошенного размера', async () => {
+    const renderer = await createRenderer({ width: 640, height: 480 });
     const canvas = renderer.renderFrame(createTestChart());
 
     expect(canvas.width).toBe(640);
     expect(canvas.height).toBe(480);
   });
 
-  it('отдаёт RGBA на 640x480x4 байта', async () => {
+  it('отдаёт RGBA на 704x576x4 байта', async () => {
     const renderer = await createRenderer();
     const pixels = renderer.pixels(createTestChart());
 
-    expect(pixels.length).toBe(640 * 480 * 4);
+    expect(pixels.length).toBe(704 * 576 * 4);
   });
 
   it('кадр не пустой: на нём есть фон и элементы', async () => {
@@ -97,7 +105,7 @@ describe('createRenderer', () => {
     const canvas = renderer.renderEmptyFrame();
     const pixels = toRgba(canvas);
 
-    expect(pixels.length).toBe(640 * 480 * 4);
+    expect(pixels.length).toBe(704 * 576 * 4);
     // Кадр не однотонный: на нём есть сообщение и логотип.
     const unique = new Set<number>();
     for (let index = 0; index < pixels.length; index += 4 * 997) {
@@ -147,7 +155,7 @@ describe('createRenderer', () => {
   it('рисует кадр без данных с явным сообщением', async () => {
     const renderer = await createRenderer();
     const canvas = renderer.renderEmptyFrame('Нет данных о погоде');
-    expect(canvas.width).toBe(640);
+    expect(canvas.width).toBe(704);
   });
 
   it('падает, если логотип не загружен: атрибуция обязательна', async () => {

@@ -76,11 +76,17 @@ export interface ChartLayout {
   readonly geometry: ChartGeometry;
   readonly series: readonly (Point | null)[];
   readonly segments: readonly { readonly points: readonly Point[] }[];
-  /** Точки экстремумов по дням. */
+  /** Точки экстремумов по дням: на реальном часе минимума и максимума. */
   readonly extremes: readonly {
     readonly x: number;
     readonly y: number;
     readonly kind: 'min' | 'max';
+    readonly label: string;
+  }[];
+  /** Отрезки кривой, разделённые по знаку температуры для окраски. */
+  readonly temperatureRuns: readonly {
+    readonly points: readonly Point[];
+    readonly aboveZero: boolean;
   }[];
   /** Столбики осадков. */
   readonly precipitation: readonly {
@@ -159,12 +165,53 @@ export function layoutChart(chart: WeekChart, theme: Theme): ChartLayout {
 
   const segments = buildSegments(series);
 
-  const extremes: { x: number; y: number; kind: 'min' | 'max' }[] = [];
-  chart.days.forEach((day, index) => {
-    if (day.minTemperature === undefined || day.maxTemperature === undefined) return;
-    const x = dayCenter(index);
-    extremes.push({ x, y: yFor(day.maxTemperature), kind: 'max' });
-    extremes.push({ x, y: yFor(day.minTemperature), kind: 'min' });
+  // Кривая красится по знаку температуры: выше нуля — тёплый цвет, ниже —
+  // холодный. Переход выполняется на самом пересечении нулевой линии, иначе
+  // цвет менялся бы рывком между точками и это читалось бы как артефакт.
+  const zeroY = yFor(0);
+  const temperatureRuns = segments.flatMap((segment) => splitBySign(segment.points, zeroY));
+
+  // Точки экстремумов ставятся на реальный час минимума и максимума, а не на
+  // центр дня: иначе точка «висит» в стороне от вершины кривой и вводит в
+  // заблуждение. Подпись — само значение температуры.
+  const extremes: {
+    x: number;
+    y: number;
+    kind: 'min' | 'max';
+    label: string;
+  }[] = [];
+
+  chart.days.forEach((day, dayIndex) => {
+    if (day.slots.length === 0) return;
+
+    const slotWidth = dayWidth / day.slots.length;
+    const xForSlot = (slotIndex: number): number =>
+      left + dayIndex * dayWidth + (slotIndex + 0.5) * slotWidth;
+
+    const hottest = hottestSlotIndex(day.slots);
+    const coldest = coldestSlotIndex(day.slots);
+
+    const hot = day.slots[hottest];
+    if (hot !== undefined) {
+      extremes.push({
+        x: xForSlot(hottest),
+        y: yFor(hot.temperature),
+        kind: 'max',
+        label: formatTemperature(hot.temperature),
+      });
+    }
+
+    const cold = day.slots[coldest];
+    // Если минимум и максимум попали в один шаг (ровная погода), вторая точка
+    // не нужна: она легла бы ровно на первую.
+    if (cold !== undefined && coldest !== hottest) {
+      extremes.push({
+        x: xForSlot(coldest),
+        y: yFor(cold.temperature),
+        kind: 'min',
+        label: formatTemperature(cold.temperature),
+      });
+    }
   });
 
   // Осадки: один столбик на шестичасовой слот, общая шкала на весь кадр.
@@ -202,6 +249,7 @@ export function layoutChart(chart: WeekChart, theme: Theme): ChartLayout {
     geometry: { left, right, dayWidth, dayCenter, scaleMin, scaleMax, yFor, top, bottom, ticks },
     series,
     segments,
+    temperatureRuns,
     extremes,
     precipitation,
     daysWithoutData: 0,
@@ -233,4 +281,89 @@ export function dateLabel(dateKey: string): string {
   const [, month, day] = dateKey.split('-');
   if (month === undefined || day === undefined) return dateKey;
   return `${day}.${month}`;
+}
+
+/** Индекс самого тёплого шага дня. */
+export function hottestSlotIndex(slots: WeekChart['days'][number]['slots']): number {
+  let best = 0;
+  for (let index = 1; index < slots.length; index += 1) {
+    const slot = slots[index];
+    const current = slots[best];
+    if (slot === undefined || current === undefined) continue;
+    if (slot.temperature > current.temperature) best = index;
+  }
+  return best;
+}
+
+/** Индекс самого холодного шага дня. */
+export function coldestSlotIndex(slots: WeekChart['days'][number]['slots']): number {
+  let best = 0;
+  for (let index = 1; index < slots.length; index += 1) {
+    const slot = slots[index];
+    const current = slots[best];
+    if (slot === undefined || current === undefined) continue;
+    if (slot.temperature < current.temperature) best = index;
+  }
+  return best;
+}
+
+/** Подпись температуры на кадре: `8°`, `-3°`, без лишних дробей. */
+export function formatTemperature(value: number): string {
+  const rounded = Math.round(value);
+  return `${rounded}°`;
+}
+
+/**
+ * Делит непрерывный участок кривой на отрезки по знаку температуры.
+ *
+ * На пересечении нуля вставляется точка ровно на нулевой линии, поэтому
+ * смена цвета происходит в месте перехода, а не между двумя точками данных.
+ */
+export function splitBySign(
+  points: readonly Point[],
+  zeroY: number,
+): { points: readonly Point[]; aboveZero: boolean }[] {
+  if (points.length === 0) return [];
+
+  const runs: { points: Point[]; aboveZero: boolean }[] = [];
+  let current: Point[] = [];
+  let currentSign: boolean | undefined;
+
+  for (const point of points) {
+    // Меньше Y означает выше на экране, то есть температура выше нуля.
+    const aboveZero = point.y < zeroY;
+    // Точка ровно на нуле не определяет знак: она относится к текущему участку.
+    const sign = point.y === zeroY ? currentSign : aboveZero;
+
+    if (currentSign === undefined || sign === undefined || sign === currentSign) {
+      current.push(point);
+      if (sign !== undefined) currentSign = sign;
+      continue;
+    }
+
+    // Переход знака: добавляем точку на нулевой линии в оба участка,
+    // чтобы линия не рвалась визуально.
+    const previous = current[current.length - 1];
+    if (previous !== undefined) {
+      const crossing = interpolateZero(previous, point, zeroY);
+      current.push(crossing);
+      runs.push({ points: current, aboveZero: currentSign });
+      current = [crossing, point];
+    } else {
+      current = [point];
+    }
+    currentSign = sign;
+  }
+
+  if (current.length > 0 && currentSign !== undefined) {
+    runs.push({ points: current, aboveZero: currentSign });
+  }
+  return runs;
+}
+
+function interpolateZero(from: Point, to: Point, zeroY: number): Point {
+  const delta = to.y - from.y;
+  if (delta === 0) return { x: to.x, y: zeroY };
+  const ratio = (zeroY - from.y) / delta;
+  return { x: from.x + (to.x - from.x) * ratio, y: zeroY };
 }
