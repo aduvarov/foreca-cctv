@@ -106,6 +106,58 @@ export function countDuplicateOperationIds(document: OpenApiDocument): number {
   return duplicates.reduce((sum, count) => sum + count - 1, 0);
 }
 
+/**
+ * Помечает необязательные скалярные поля как допускающие null.
+ *
+ * Почему это нужно: в спеке Foreca нет ни одного `required`, а `nullable`
+ * объявлен лишь у 15 полей из 554. На практике API регулярно возвращает `null`
+ * в необязательных полях — например, `adminArea2: null` в поиске локаций.
+ * Без этой правки сгенерированная zod-схема отвергает валидный ответ,
+ * и сервис не может сохранить даже правильный токен.
+ *
+ * Правило узкое: меняются только необязательные поля простых типов.
+ * Массивы и объекты не трогаются — их `null` в спеке уже размечен, а гадать
+ * о структуре вложенных значений нельзя.
+ */
+export function markOptionalScalarsNullable(document: OpenApiDocument): number {
+  let changed = 0;
+
+  const visit = (node: unknown): void => {
+    if (Array.isArray(node)) {
+      for (const item of node) visit(item);
+      return;
+    }
+    if (typeof node !== 'object' || node === null) return;
+
+    const record = node as Record<string, unknown>;
+    if (record['type'] === 'object' && isRecord(record['properties'])) {
+      const required = Array.isArray(record['required']) ? record['required'] : [];
+      const requiredNames = new Set(
+        required.filter((name): name is string => typeof name === 'string'),
+      );
+
+      for (const [name, schema] of Object.entries(record['properties'])) {
+        if (!isRecord(schema)) continue;
+        const type = schema['type'];
+        const isScalar = type === 'string' || type === 'number' || type === 'boolean';
+        if (isScalar && !requiredNames.has(name) && schema['nullable'] !== true) {
+          schema['nullable'] = true;
+          changed += 1;
+        }
+      }
+    }
+
+    for (const value of Object.values(record)) visit(value);
+  };
+
+  visit(document.paths);
+  return changed;
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
 function main(): void {
   const root = resolve(import.meta.dirname, '..');
   const source = resolve(root, 'foreca-weather-api.openapi.json');
@@ -115,6 +167,9 @@ function main(): void {
   // Дубли считаются до мутации: normalizeDocument переписывает operationId на месте.
   const duplicatesBefore = countDuplicateOperationIds(raw);
   const { document, renamed, ids } = normalizeDocument(raw);
+  // Nullable размечается после нормализации: порядок не важен, но так виднее
+  // в отчёте, сколько полей пришлось исправить.
+  const nullable = markOptionalScalarsNullable(document);
 
   mkdirSync(dirname(target), { recursive: true });
   writeFileSync(target, `${JSON.stringify(document, null, 2)}\n`, 'utf8');
@@ -122,6 +177,7 @@ function main(): void {
   console.log(`операций: ${ids.length}`);
   console.log(`переименовано: ${renamed}`);
   console.log(`дублей идентификаторов до нормализации: ${duplicatesBefore}`);
+  console.log(`необязательных скалярных полей помечено nullable: ${nullable}`);
   console.log(`записано: ${target}`);
 }
 
