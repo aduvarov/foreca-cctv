@@ -155,24 +155,98 @@ async function runProductionService(config: ServiceConfig): Promise<void> {
 
 /** Остановка по сигналу: FFmpeg должен завершиться, а не остаться сиротой. */
 function installShutdownHandlers(service: RunningService): void {
-  let stopping = false;
-
-  const shutdown = (signal: string): void => {
-    if (stopping) return;
-    stopping = true;
-    process.stderr.write(`получен ${signal}, останавливаюсь\n`);
-    service.stop().catch((error: unknown) => {
-      process.stderr.write(`ошибка при остановке: ${String(error)}\n`);
-      process.exitCode = 1;
-    });
-  };
+  const shutdown = createShutdown({
+    stop: () => service.stop(),
+    log: (message) => {
+      process.stderr.write(`${message}\n`);
+    },
+    exit: (code) => {
+      process.exit(code);
+    },
+    setExitCode: (code) => {
+      process.exitCode = code;
+    },
+    setTimer: (callback, delayMs) => setTimeout(callback, delayMs),
+    clearTimer: (handle) => {
+      clearTimeout(handle as NodeJS.Timeout);
+    },
+  });
 
   process.once('SIGINT', () => {
-    shutdown('SIGINT');
+    shutdown('получен SIGINT');
   });
   process.once('SIGTERM', () => {
-    shutdown('SIGTERM');
+    shutdown('получен SIGTERM');
   });
+
+  // Непойманная ошибка не должна молча убивать сервис: без этих обработчиков
+  // Node завершается без остановки FFmpeg, а журнал не объясняет, что случилось.
+  // После uncaughtException состояние процесса не определено, поэтому
+  // корректно останавливаемся и отдаём ненулевой код внешнему супервизору.
+  process.once('uncaughtException', (error) => {
+    shutdown(`непойманная ошибка: ${describeError(error)}`, 1);
+  });
+  process.once('unhandledRejection', (reason) => {
+    shutdown(`необработанный отказ: ${describeError(reason)}`, 1);
+  });
+}
+
+export interface ShutdownOptions {
+  readonly stop: () => Promise<void>;
+  readonly log: (message: string) => void;
+  readonly exit: (code: number) => void;
+  /** Код выхода при штатном завершении: иначе `uncaughtException` даст 0. */
+  readonly setExitCode: (code: number) => void;
+  readonly setTimer: (callback: () => void, delayMs: number) => unknown;
+  readonly clearTimer: (handle: unknown) => void;
+  /** Предел ожидания остановки: дольше ждать внешнему супервизору вредно. */
+  readonly timeoutMs?: number;
+}
+
+/**
+ * Идемпотентная остановка. Вынесена из обработчиков сигналов, чтобы её
+ * поведение проверялось тестом без SIGTERM и без реального выхода процесса.
+ */
+export function createShutdown(
+  options: ShutdownOptions,
+): (reason: string, exitCode?: number) => void {
+  const timeoutMs = options.timeoutMs ?? 10_000;
+  let stopping = false;
+
+  return (reason, exitCode = 0) => {
+    if (stopping) return;
+    stopping = true;
+    options.log(`${reason}, останавливаюсь`);
+    // Код фиксируется сразу: при `uncaughtException` процесс завершится
+    // естественным образом после остановки, и без этого он вышел бы с нулём,
+    // а внешний супервизор не отличил бы сбой от штатной остановки.
+    options.setExitCode(exitCode);
+
+    // Аварийный выход: если остановка зависла, процесс всё равно должен умереть,
+    // иначе внешний супервизор будет ждать и не перезапустит сервис.
+    const emergency = options.setTimer(() => {
+      options.log(
+        `остановка не завершилась за ${String(timeoutMs / 1000)} с, выхожу принудительно`,
+      );
+      options.exit(exitCode === 0 ? 1 : exitCode);
+    }, timeoutMs);
+
+    options
+      .stop()
+      .then(() => {
+        options.clearTimer(emergency);
+      })
+      .catch((error: unknown) => {
+        options.clearTimer(emergency);
+        options.log(`ошибка при остановке: ${describeError(error)}`);
+      });
+  };
+}
+
+function describeError(error: unknown): string {
+  if (!(error instanceof Error)) return String(error);
+  const code = (error as NodeJS.ErrnoException).code;
+  return code === undefined ? error.message : `${code}: ${error.message}`;
 }
 
 // Запуск как CLI: main вызывается только при прямом выполнении файла,
@@ -186,5 +260,9 @@ if (process.argv[1] !== undefined && resolve(process.argv[1]) === resolve(import
     interactive: isInteractive(),
     runService: runProductionService,
   });
-  process.exitCode = code;
+  // Аварийная остановка уже выставила ненулевой код: не перетираем его нулём
+  // от `main`, иначе внешний супервизор не увидит сбой.
+  if (process.exitCode === undefined || process.exitCode === 0) {
+    process.exitCode = code;
+  }
 }

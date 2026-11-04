@@ -4,7 +4,7 @@ import { join } from 'node:path';
 import { PassThrough } from 'node:stream';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { main } from '../src/index.js';
+import { createShutdown, main } from '../src/index.js';
 import type { ServiceConfig } from '../src/config/schema.js';
 
 function capture(): { stream: PassThrough; text: () => string } {
@@ -218,5 +218,102 @@ describe('main: решения на старте', () => {
     await main(args);
 
     expect(await readFile(configPath, 'utf8')).toBe(original);
+  });
+});
+
+describe('createShutdown', () => {
+  function setup(stop: () => Promise<void>) {
+    const logs: string[] = [];
+    const exits: number[] = [];
+    const exitCodes: number[] = [];
+    const timers: { callback: () => void; delayMs: number; cleared: boolean }[] = [];
+
+    const shutdown = createShutdown({
+      stop,
+      log: (message) => logs.push(message),
+      exit: (code) => exits.push(code),
+      setExitCode: (code) => exitCodes.push(code),
+      setTimer: (callback, delayMs) => {
+        const timer = { callback, delayMs, cleared: false };
+        timers.push(timer);
+        return timer;
+      },
+      clearTimer: (handle) => {
+        (handle as { cleared: boolean }).cleared = true;
+      },
+      timeoutMs: 5_000,
+    });
+
+    return { shutdown, logs, exits, exitCodes, timers };
+  }
+
+  it('останавливает сервис и снимает аварийный таймер', async () => {
+    const { shutdown, logs, exits, exitCodes, timers } = setup(() => Promise.resolve());
+
+    shutdown('получен SIGTERM');
+    await Promise.resolve();
+
+    expect(logs).toEqual(['получен SIGTERM, останавливаюсь']);
+    expect(exits).toEqual([]);
+    expect(timers).toHaveLength(1);
+    expect(timers[0]?.cleared).toBe(true);
+    // Штатная остановка не должна оставлять ненулевой код.
+    expect(exitCodes).toEqual([0]);
+  });
+
+  it('фиксирует ненулевой код до завершения остановки', async () => {
+    // При uncaughtException процесс умирает сам: без setExitCode он вышел бы
+    // с нулём, и внешний супервизор не увидел бы сбой.
+    const { shutdown, exitCodes } = setup(() => Promise.resolve());
+
+    shutdown('непойманная ошибка: EPIPE', 1);
+    await Promise.resolve();
+
+    expect(exitCodes).toEqual([1]);
+  });
+
+  it('не запускает остановку дважды', async () => {
+    const calls: number[] = [];
+    const { shutdown, timers } = setup(() => {
+      calls.push(1);
+      return Promise.resolve();
+    });
+
+    shutdown('получен SIGTERM');
+    shutdown('непойманная ошибка', 1);
+    await Promise.resolve();
+
+    expect(calls).toHaveLength(1);
+    expect(timers).toHaveLength(1);
+  });
+
+  it('выходит принудительно, если остановка зависла', () => {
+    // Обещание, которое никогда не завершится: имитация зависшего FFmpeg.
+    const { shutdown, exits, timers } = setup(() => new Promise<void>(() => undefined));
+
+    shutdown('получен SIGTERM');
+    timers[0]?.callback();
+
+    expect(exits).toEqual([1]);
+  });
+
+  it('сохраняет ненулевой код при аварийном выходе', () => {
+    const { shutdown, exits, timers } = setup(() => new Promise<void>(() => undefined));
+
+    shutdown('непойманная ошибка', 1);
+    timers[0]?.callback();
+
+    expect(exits).toEqual([1]);
+  });
+
+  it('пишет причину отказа остановки в журнал', async () => {
+    const { shutdown, logs, timers } = setup(() => Promise.reject(new Error('ffmpeg не отвечает')));
+
+    shutdown('получен SIGINT');
+    await Promise.resolve();
+    await Promise.resolve();
+
+    expect(timers[0]?.cleared).toBe(true);
+    expect(logs.join('\n')).toContain('ошибка при остановке: ffmpeg не отвечает');
   });
 });

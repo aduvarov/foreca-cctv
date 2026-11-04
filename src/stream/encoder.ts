@@ -151,24 +151,63 @@ export function startEncoder(options: StartEncoderOptions): EncoderHandle {
     }
   });
 
+  let exited = false;
+
+  /**
+   * Сообщает о завершении ровно один раз.
+   *
+   * `exit` не приходит, если процесс так и не запустился (например, `ENOENT`
+   * от отсутствующего ffmpeg): тогда остаётся только `close`. Без этой
+   * подстраховки супервизор не узнал бы о падении и не перезапустил публикацию.
+   */
+  const finish = (code: number | null, signal: NodeJS.Signals | null): void => {
+    if (exited) return;
+    exited = true;
+    onEvent?.({ type: 'exited', code, signal });
+  };
+
   child.on('error', (error) => {
     onEvent?.({ type: 'error', error });
   });
 
   child.on('exit', (code, signal) => {
-    onEvent?.({ type: 'exited', code, signal });
+    finish(code, signal);
+  });
+
+  // `close` приходит и после `exit`, и вместо него при ошибке запуска.
+  child.on('close', (code, signal) => {
+    finish(code, signal);
   });
 
   let stopped = false;
+  let stdinFailure: Error | undefined;
+
+  /**
+   * Ошибка записи в stdin приходит событием `'error'`, а не исключением из
+   * `write()`: EPIPE случается, когда FFmpeg уже умер. Без обработчика это
+   * `uncaughtException` и падение всего сервиса вместо перезапуска кодировщика.
+   */
+  child.stdin.on('error', (error: Error) => {
+    stdinFailure = error;
+    onEvent?.({ type: 'error', error });
+  });
 
   return {
     get pid() {
       return child.pid;
     },
     get running() {
-      return !stopped && child.exitCode === null && child.signalCode === null;
+      return (
+        !stopped &&
+        stdinFailure === undefined &&
+        child.exitCode === null &&
+        child.signalCode === null
+      );
     },
     write(frame: Uint8Array): WriteResult {
+      if (stdinFailure !== undefined) {
+        return { ok: false, reason: `pipe кодировщика закрыт: ${stdinFailure.message}` };
+      }
       if (!this.running || !child.stdin.writable) {
         return { ok: false, reason: 'кодировщик не запущен' };
       }
@@ -188,11 +227,16 @@ export function startEncoder(options: StartEncoderOptions): EncoderHandle {
       child.stdin.end();
       // Даём FFmpeg время корректно закрыть поток, затем добиваем.
       await new Promise<void>((resolve) => {
+        if (exited) {
+          resolve();
+          return;
+        }
         const timeout = setTimeout(() => {
           child.kill('SIGKILL');
           resolve();
         }, 2_000);
-        child.once('exit', () => {
+        // `close`, а не `exit`: при ошибке запуска процесса `exit` не приходит.
+        child.once('close', () => {
           clearTimeout(timeout);
           resolve();
         });
