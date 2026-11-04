@@ -117,12 +117,48 @@ curl -o frame.png http://127.0.0.1:9970/snapshot.png   # текущий кадр
 работает ли UDP и доступна ли вторая ссылка. Это первое, что стоит запустить,
 если регистратор не видит камеру.
 
+## Автозапуск
+
+Запускать сервис руками в терминале нельзя: после падения процесса канал
+остаётся на offline-заглушке, и на мониторе это выглядит как рабочий поток.
+Поднимать сервис должен systemd.
+
+```bash
+npm run build                 # dist/index.js нужен юниту
+./scripts/install-service.sh  # ставит ~/.config/systemd/user/foreca-cctv.service
+```
+
+Скрипт подставляет в `deploy/foreca-cctv.service.in` путь к текущему `node`,
+каталог репозитория и `config.json`, включает linger (работа без входа
+в систему) и запускает юнит.
+
+```bash
+journalctl --user -u foreca-cctv -f      # журнал сервиса
+systemctl --user status foreca-cctv
+systemctl --user restart foreca-cctv
+```
+
+Три слоя восстановления дополняют друг друга:
+
+| слой       | отказ                | кто восстанавливает                  |
+| ---------- | -------------------- | ------------------------------------ |
+| кодировщик | FFmpeg упал или умер | супервизор внутри сервиса, с backoff |
+| сервис     | Node упал            | systemd (`Restart=always`, 5 с)      |
+| сервер     | перезагрузка         | systemd (`enable` + linger)          |
+
+Если `install-service.sh` не используется, сервис можно запустить вручную —
+но тогда после сбоя его никто не поднимет:
+
+```bash
+setsid node dist/index.js >> state/serve.log 2>&1 < /dev/null &
+```
+
 ## Разработка
 
 ```bash
 npm run typecheck     # строгий TypeScript
 npm run lint
-npm test              # 267 тестов
+npm test              # 315 тестов
 npm run codegen       # типы и zod-схемы Foreca из OpenAPI
 npx tsx scripts/render-sample.ts sample.png   # кадр в файл
 ```
@@ -147,3 +183,7 @@ foreca-weather-api.openapi.json
 - FFmpeg стартует в публикацию примерно за 5 секунд; до этого MediaMTX отдаёт
   заглушку.
 - Публикация идёт по RTSP/TCP: UDP через NAT нестабилен.
+- Запись в stdin умершего FFmpeg приходит событием `EPIPE`, а не исключением
+  из `write()`. Обработчик в `src/stream/encoder.ts` превращает это в отказ
+  записи, поэтому падает и перезапускается только кодировщик, а не сервис.
+  Тест: `tests/stream-encoder-process.test.ts`.

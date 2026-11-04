@@ -1,0 +1,35 @@
+[Unit]
+# Сервис виртуальной камеры: прогноз Foreca как RTSP-поток для регистратора.
+#
+# Это шаблон: scripts/install-service.sh подставляет пути и кладёт готовый
+# юнит в ~/.config/systemd/user/foreca-cctv.service.
+#
+# Юнит пользовательский, потому что сервис не требует root: он пишет только
+# в свой каталог и публикует поток на localhost:8554. Чтобы он работал без
+# входа в систему, нужен linger (`loginctl enable-linger $USER`).
+Description=foreca-cctv: виртуальная камера с прогнозом Foreca
+Documentation=file:__REPO__/README.md
+After=network-online.target
+Wants=network-online.target
+# Защита от шторма перезапусков: 5 падений за минуту — стоп и сигнал.
+# Ключи живут в [Unit], а не в [Service]: иначе systemd их игнорирует.
+StartLimitIntervalSec=60
+StartLimitBurst=5
+
+[Service]
+Type=simple
+WorkingDirectory=__REPO__
+# Запуск из собранного dist, а не через tsx: в бою не нужен транспилятор.
+ExecStart=__NODE__ __REPO__/dist/index.js --config __CONFIG__
+# Канал не должен простаивать: поднимаем сервис после любого падения.
+Restart=always
+RestartSec=5
+# Остановка: сервис сам корректно гасит FFmpeg по SIGTERM.
+KillSignal=SIGTERM
+TimeoutStopSec=20
+# Журнал: journalctl --user -u foreca-cctv -f
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=default.target
